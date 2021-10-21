@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "esModuleInterop": true,
+    "inlineSourceMap": true,
+    "inlineSources": true,
+    "lib": ["ESNext"],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noImplicitAny": false,
+    "outDir": "./dist/",
+    "preserveConstEnums": true,
+    "resolveJsonModule": true,
+    "strictNullChecks": true,
+    "allowJs": true,
+    "target": "ES2019",
+  },
+  "typeAcquisition": {
+    "enable": false
+  },
+  "include": [
+    "**/*.ts",
+    "**/.*.ts",
+    "**/*.js",
+    "**/*.mjs",
+    "**/*.cjs",
+    "**/.*.js",
+    "**/.*.mjs",
+    "**/.*.cjs",
+    "*.js",
+    "*.mjs",
+    "*.cjs",
+    ".*.js",
+    ".*.mjs",
+    ".*.cjs",
+    "*.ts",
+    ".*.ts"
+  ]
+}

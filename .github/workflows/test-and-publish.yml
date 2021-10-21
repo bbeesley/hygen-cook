@@ -1,0 +1,42 @@
+name: test-and-publish
+on:
+  push:
+  pull_request_target:
+    types: [opened, synchronize, edited]
+  status: {}
+jobs:
+  build-test-merge-publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v2
+        if: github.event_name == 'push'
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/checkout@v2
+        if: github.event_name == 'pull_request_target'
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14.17'
+      - uses: bbeesley/build-test-merge-publish@main
+        with:
+          main-branch: main
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_PA_TOKEN }}
+  lint-commits:
+    runs-on: ubuntu-latest
+    if: ${{ (github.actor == 'dependabot[bot]' && github.event_name == 'pull_request_target') || (github.ref != 'refs/heads/main' && github.event_name == 'push') }}
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v2
+      - name: install
+        run: npm ci
+      - name: commitlint
+        run: ./node_modules/.bin/commitlint --from "$(cat .git/refs/heads/main)" --to HEAD

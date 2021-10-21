@@ -1,0 +1,71 @@
+name: simple service with lambda
+ingredients:
+  - https://github.com/getndazn/scaffolder-demo-hygen
+  - https://github.com/getndazn/github-actions-generator
+instructions:
+  - package: monorepo
+    generator: new
+    args:
+      - option: name
+        value: simple-service
+  - package: monorepo-package
+    generator: new
+    args:
+      - option: name
+        value: api
+  - package: monorepo-package
+    generator: lambda
+    args:
+      - option: name
+        value: api-lambda
+      - option: component
+        value: api
+  - package: monorepo-package
+    generator: new
+    args:
+      - option: name
+        value: ingest
+  - package: monorepo-package
+    generator: lambda
+    args:
+      - option: name
+        value: ingest-lambda
+      - option: component
+        value: ingest
+  - package: github-actions
+    generator: build-test-publish 
+    args:
+      - option: admin-github-token
+        value: ATLANTIS_GITHUB_TOKEN
+      - option: main-branch
+        value: main
+      - option: node-version
+        value: '14.11'
+      - option: use-commit-lint
+      - option: use-lerna
+  - package: github-actions
+    generator: dependabot
+    args:
+      - option: admin-github-token
+        value: ATLANTIS_GITHUB_TOKEN
+      - option: main-branch
+        value: main
+      - option: node-version
+        value: '14.11'
+  - package: github-actions
+    generator: terraform-deploy
+    args:
+      - option: admin-github-token
+        value: ATLANTIS_GITHUB_TOKEN
+      - option: main-branch
+        value: main
+      - option: terraform-version
+        value: '0.14.11'
+      - option: aws-profile-dev
+        value: '632760434310'
+      - option: aws-profile-test
+        value: '080865980379'
+      - option: aws-profile-stage
+        value: '080865980379'
+      - option: aws-profile-prod
+        value: '216399462328'
