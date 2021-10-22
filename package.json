@@ -4,7 +4,7 @@
   "description": "Helps you cook up some delicious hygen recipes",
   "main": "dist/main/chef.cjs",
   "bin": {
-    "hygen-chef": "dist/bin/hygen-chef.cjs"
+    "hygen-cook": "dist/bin/hygen-chef.cjs"
   },
   "files": [
     "dist"
