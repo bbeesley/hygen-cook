@@ -16,10 +16,10 @@ A recipe is composed of two main sections, `ingredients` and `instructions`. Ing
 
 ### Install
 
-To get the `hygen-chef` command available in your terminal you'll need to install the module globally:
+To get the `hygen-cook` command available in your terminal you'll need to install the module globally:
 
 ```shell
-npm i -g hygen-chef
+npm i -g hygen-cook
 ```
 
 ### Create a Recipe
