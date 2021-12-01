@@ -82,6 +82,9 @@ docs/**/*.md
 # ts cache
 *.tsbuildinfo
 
+#IDEA ide files
+.idea
+
 # compiled schemas
 packages/full/src/main/schema.ts
 

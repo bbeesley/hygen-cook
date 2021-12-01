@@ -1,10 +1,9 @@
 import { readFile } from 'async-fs-wrapper';
-import execSh from 'exec-sh';
 import { load } from 'js-yaml';
-import { join } from 'path';
 
 import { Arg, CliArgs, Recipe } from './@types';
 import { addPackage } from './add';
+import { Hygen } from './hygen/Hygen';
 
 function prepareArgs(argsOptions: Arg[]): string[] {
   return argsOptions.reduce(
@@ -31,19 +30,10 @@ export async function cook({
   const { instructions = [] } = recipe;
   console.log('following instructions');
   for (const step of instructions) {
-    console.log(
-      `${join(__dirname, '../../node_modules/.bin/')}hygen ${[
-        step.package,
-        step.generator,
-        ...prepareArgs(step.args),
-      ].join(' ')}`,
-    );
-    await execSh.promise(
-      `${join(__dirname, '../../node_modules/.bin/')}hygen ${[
-        step.package,
-        step.generator,
-        ...prepareArgs(step.args),
-      ].join(' ')}`,
-    );
+    await new Hygen().run([
+      step.package,
+      step.generator,
+      ...prepareArgs(step.args),
+    ]);
   }
 }
