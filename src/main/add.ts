@@ -6,7 +6,7 @@ import inquirer from 'inquirer';
 import ora from 'ora';
 import { join } from 'path';
 import { URL } from 'url';
-import { AddOptions, CliArgs, CliPackageManager } from './@types';
+import { AddOptions, CliPackageManager } from './@types';
 
 const tmpl = (x): string => join('_templates', x);
 
