@@ -6,14 +6,9 @@ import inquirer from 'inquirer';
 import ora from 'ora';
 import { join } from 'path';
 import { URL } from 'url';
-import { CliArgs } from './chef';
+import { AddOptions, CliArgs, CliPackageManager } from './@types';
 
 const tmpl = (x): string => join('_templates', x);
-
-type AddOptions = {
-  name?: string;
-  prefix?: string;
-};
 
 const resolvePackage = (
   pkg,
@@ -40,7 +35,7 @@ async function pathExists(path: string): Promise<boolean> {
 
 export async function addPackage(
   pkg: string,
-  packageManager: Pick<CliArgs, 'packageManager'>,
+  packageManager: CliPackageManager,
   options: AddOptions = {},
 ): Promise<void> {
   const { red, green, yellow } = chalk;

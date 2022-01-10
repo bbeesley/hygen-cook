@@ -3,26 +3,8 @@ import execSh from 'exec-sh';
 import { load } from 'js-yaml';
 import { join } from 'path';
 
+import { Arg, CliArgs, Recipe } from './@types';
 import { addPackage } from './add';
-
-type Arg = {
-  option: string;
-  value?: string;
-};
-export type CliArgs = {
-  recipe: string;
-  packageManager: 'npm' | 'yarn';
-};
-type Instruction = {
-  package: string;
-  generator: string;
-  args: Arg[];
-};
-type Recipe = {
-  name: string;
-  ingredients?: string[];
-  instructions: Instruction[];
-};
 
 function prepareArgs(argsOptions: Arg[]): string[] {
   return argsOptions.reduce(
