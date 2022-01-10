@@ -9,6 +9,10 @@ type Arg = {
   option: string;
   value?: string;
 };
+export type CliArgs = {
+  recipe: string;
+  packageManager: 'npm' | 'yarn';
+};
 type Instruction = {
   package: string;
   generator: string;
@@ -31,13 +35,16 @@ function prepareArgs(argsOptions: Arg[]): string[] {
   );
 }
 
-export async function cook(recipePath: string): Promise<void> {
+export async function cook({
+  recipe: recipePath,
+  packageManager,
+}: CliArgs): Promise<void> {
   const recipeContent = await readFile(recipePath);
   const recipe = load(recipeContent) as Recipe;
   const { ingredients = [] } = recipe;
   console.log('preparing ingredients');
   for (const dep of ingredients) {
-    await addPackage(dep);
+    await addPackage(dep, packageManager);
   }
   const { instructions = [] } = recipe;
   console.log('following instructions');

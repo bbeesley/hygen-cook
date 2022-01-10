@@ -6,6 +6,7 @@ import inquirer from 'inquirer';
 import ora from 'ora';
 import { join } from 'path';
 import { URL } from 'url';
+import { CliArgs } from './chef';
 
 const tmpl = (x): string => join('_templates', x);
 
@@ -39,6 +40,7 @@ async function pathExists(path: string): Promise<boolean> {
 
 export async function addPackage(
   pkg: string,
+  packageManager: Pick<CliArgs, 'packageManager'>,
   options: AddOptions = {},
 ): Promise<void> {
   const { red, green, yellow } = chalk;
@@ -47,7 +49,7 @@ export async function addPackage(
 
   try {
     await execa(
-      `${join(__dirname, '../../node_modules/.bin/')}npm i -D ${
+      `${join(__dirname, '../../node_modules/.bin/')}${packageManager} i -D ${
         isUrl ? pkg : name
       }`,
       { shell: true },

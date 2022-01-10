@@ -10,6 +10,18 @@ const { argv } = yargs(process.argv.slice(2))
     requiresArg: true,
     describe: 'The recipe to cook up',
   })
+  .option('packageManager', {
+    alias: 'm',
+    demandOption: true,
+    string: true,
+    requiresArg: false,
+    default: 'npm',
+    choices: ['npm', 'yarn'],
+    describe: 'The package manager to use when installing generator packages',
+  })
   .help();
 
-cook(argv.recipe);
+cook({
+  recipe: argv.recipe,
+  packageManager: argv.packageManager as 'npm' | 'yarn',
+});
