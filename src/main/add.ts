@@ -44,9 +44,9 @@ export async function addPackage(
 
   try {
     await execa(
-      `${join(__dirname, '../../node_modules/.bin/')}${packageManager} i -D ${
-        isUrl ? pkg : name
-      }`,
+      `${join(__dirname, '../../node_modules/.bin/')}${packageManager} ${
+        packageManager === CliPackageManager.npm ? 'i -D' : 'add --dev'
+      } ${isUrl ? pkg : name}`,
       { shell: true },
     );
     const templatePath = join('./node_modules', name, '_templates');
