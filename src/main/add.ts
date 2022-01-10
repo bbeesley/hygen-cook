@@ -47,7 +47,7 @@ export async function addPackage(
 
   try {
     await execa(
-      `${join(__dirname, '../../node_modules/.bin/')}yarn add --dev ${
+      `${join(__dirname, '../../node_modules/.bin/')}npm i -D ${
         isUrl ? pkg : name
       }`,
       { shell: true },
