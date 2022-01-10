@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import yargs from 'yargs/yargs';
 import { cook } from '../main/chef';
+import { CliArgs } from '../main/@types';
 
 const { argv } = yargs(process.argv.slice(2))
   .option('recipe', {
@@ -23,5 +24,5 @@ const { argv } = yargs(process.argv.slice(2))
 
 cook({
   recipe: argv.recipe,
-  packageManager: argv.packageManager as 'npm' | 'yarn',
-});
+  packageManager: argv.packageManager,
+} as CliArgs);
