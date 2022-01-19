@@ -6,7 +6,7 @@ A composition tool for [hygen](https://www.hygen.io) templates. Allows you to co
 
 ## Introduction
 
-Hygen is great for templating out small bits of boilerplate for specific use cases, but less than ideal for large complex projects with multiple different options. Hygen Cook aims to solve that issue by allowing you to define a recipe for that large complex project by combining multiple small generators in a specific shape and order.
+HygenWrapper is great for templating out small bits of boilerplate for specific use cases, but less than ideal for large complex projects with multiple different options. HygenWrapper Cook aims to solve that issue by allowing you to define a recipe for that large complex project by combining multiple small generators in a specific shape and order.
 
 ## Recipes
 

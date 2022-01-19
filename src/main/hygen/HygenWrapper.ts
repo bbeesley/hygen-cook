@@ -3,7 +3,7 @@ import { RunnerConfig, Prompter, ActionResult } from 'hygen/src/types';
 import { command } from 'execa';
 import enquirer from 'enquirer';
 
-export class Hygen {
+export class HygenWrapper {
   private readonly config: RunnerConfig;
 
   constructor(config?: RunnerConfig) {
