@@ -3,7 +3,7 @@ import { load } from 'js-yaml';
 
 import { Arg, CliArgs, Recipe } from './@types';
 import { addPackage } from './add';
-import { HygenWrapper } from './hygen/HygenWrapper';
+import { runHygen } from './hygen/hygen-wrapper';
 
 function prepareArgs(argsOptions: Arg[]): string[] {
   return argsOptions.reduce(
@@ -30,10 +30,6 @@ export async function cook({
   const { instructions = [] } = recipe;
   console.log('following instructions');
   for (const step of instructions) {
-    await new HygenWrapper().run([
-      step.package,
-      step.generator,
-      ...prepareArgs(step.args),
-    ]);
+    await runHygen([step.package, step.generator, ...prepareArgs(step.args)]);
   }
 }
