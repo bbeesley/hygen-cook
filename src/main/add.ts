@@ -21,7 +21,7 @@ const resolvePackage = (
     const url = new URL(pkg);
     return { name: url.href.split('/').pop() as string, isUrl: true };
   }
-  return { name: `hygen-${pkg}`, isUrl: false };
+  return { name: pkg, isUrl: false };
 };
 
 async function pathExists(path: string): Promise<boolean> {
