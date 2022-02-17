@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/bbeesley/hygen-cook/compare/v1.2.0...v1.2.1) (2022-02-17)
+
+
+### Bug Fixes
+
+* do not prefix package names with hygen ([4955cbc](https://github.com/bbeesley/hygen-cook/commit/4955cbc04fa0dfb76056f88554c082e555de1ee4))
+
 # [1.2.0](https://github.com/bbeesley/hygen-cook/compare/v1.1.0...v1.2.0) (2022-02-17)
 
 
