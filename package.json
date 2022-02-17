@@ -22,7 +22,7 @@
   "author": "Bill Beesley <bill@beesley.dev>",
   "license": "MIT",
   "optionalDependencies": {
-    "fsevents": "2.1.2"
+    "fsevents": "2.3.2"
   },
   "dependencies": {
     "async-fs-wrapper": "^2.7.0",
