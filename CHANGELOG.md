@@ -1,3 +1,10 @@
+## [1.2.2](https://github.com/bbeesley/hygen-cook/compare/v1.2.1...v1.2.2) (2022-02-17)
+
+
+### Bug Fixes
+
+* use global npm path for dep installation ([9db7240](https://github.com/bbeesley/hygen-cook/commit/9db724060e595711196c1062aa045c822d55565c))
+
 ## [1.2.1](https://github.com/bbeesley/hygen-cook/compare/v1.2.0...v1.2.1) (2022-02-17)
 
 
