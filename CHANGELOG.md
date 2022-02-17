@@ -1,3 +1,13 @@
+# [1.2.0](https://github.com/bbeesley/hygen-cook/compare/v1.1.0...v1.2.0) (2022-02-17)
+
+
+### Features
+
+* call hygen library directly instead of invoking its binary ([ff194b2](https://github.com/bbeesley/hygen-cook/commit/ff194b235279fff44528dfbb3497980ec28101be))
+* changed Hygen-Cook to call Hygen directly ([ebb589a](https://github.com/bbeesley/hygen-cook/commit/ebb589a3d2fe7c253e3bbe7d10ca9ac31bf9681b))
+* refactor rename typo ([9e45b69](https://github.com/bbeesley/hygen-cook/commit/9e45b691e5d4387b0d71d3e74e8951125a6dadde))
+* refactor rename typo ([fd70274](https://github.com/bbeesley/hygen-cook/commit/fd702746154ba5618df11496fd14df151874a4fe))
+
 # [1.1.0](https://github.com/bbeesley/hygen-cook/compare/v1.0.3...v1.1.0) (2022-01-10)
 
 
