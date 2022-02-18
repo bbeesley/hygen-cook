@@ -54,7 +54,6 @@ export async function addPackage(
       recursive: true,
     });
 
-    spinner.stop();
     for (const g of await readdir(templatePath)) {
       const maybePrefixed = options.prefix ? `${options.prefix}-${g}` : g;
       const wantedTargetPath = tmpl(maybePrefixed);
@@ -89,5 +88,7 @@ export async function addPackage(
       red(`\n\nCan't add ${name}${isUrl ? ` (source: ${pkg})` : ''}\n\n`),
       ex,
     );
+  } finally {
+    spinner.stop();
   }
 }
