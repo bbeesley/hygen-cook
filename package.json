@@ -1,6 +1,6 @@
 {
   "name": "hygen-cook",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "description": "Helps you cook up some delicious hygen recipes",
   "main": "dist/main/chef.cjs",
   "bin": {
