@@ -1,3 +1,5 @@
+## [1.2.14](https://github.com/bbeesley/hygen-cook/compare/v1.2.13...v1.2.14) (2022-02-22)
+
 ## [1.2.13](https://github.com/bbeesley/hygen-cook/compare/v1.2.12...v1.2.13) (2022-02-22)
 
 ## [1.2.12](https://github.com/bbeesley/hygen-cook/compare/v1.2.11...v1.2.12) (2022-02-22)
