@@ -23,6 +23,8 @@ const { argv } = yargs(process.argv.slice(2))
   .help();
 
 cook({
-  recipe: argv.recipe,
-  packageManager: argv.packageManager,
+  /* eslint-disable dot-notation */
+  recipe: argv['recipe'],
+  packageManager: argv['packageManager'],
+  /* eslint-enable dot-notation */
 } as CliArgs);

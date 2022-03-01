@@ -13,7 +13,7 @@
     "resolveJsonModule": true,
     "strictNullChecks": true,
     "allowJs": true,
-    "target": "ES2019",
+    "target": "ES2019"
   },
   "typeAcquisition": {
     "enable": false

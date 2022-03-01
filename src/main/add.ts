@@ -49,16 +49,16 @@ export async function addPackage(
         packageManager === CliPackageManager.npm ? 'i -D' : 'add --dev',
         isUrl ? pkg : name,
       ],
-      { shell: true },
+      { shell: true, cwd: process.cwd() },
     );
     const templatePath = join('./node_modules', name, '_templates');
-    await mkdir('_templates', {
+    await mkdir(join(process.cwd(), '_templates'), {
       recursive: true,
     });
 
     for (const g of await readdir(templatePath)) {
       const maybePrefixed = options.prefix ? `${options.prefix}-${g}` : g;
-      const wantedTargetPath = tmpl(maybePrefixed);
+      const wantedTargetPath = join(process.cwd(), tmpl(maybePrefixed));
       const sourcePath = join(templatePath, g);
 
       if (await pathExists(wantedTargetPath)) {

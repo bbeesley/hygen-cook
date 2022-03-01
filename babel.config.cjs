@@ -1,4 +1,5 @@
 module.exports = function configureBabel(api) {
+  const isTest = api.env('test');
   api.cache(true);
 
   const presets = [
@@ -16,9 +17,14 @@ module.exports = function configureBabel(api) {
     ],
   ];
 
-  const plugins = [
-    ['babel-plugin-add-import-extension', { extension: 'cjs', replace: true }],
-  ];
+  const plugins = isTest
+    ? []
+    : [
+        [
+          'babel-plugin-add-import-extension',
+          { extension: 'cjs', replace: true },
+        ],
+      ];
 
   return {
     presets,
