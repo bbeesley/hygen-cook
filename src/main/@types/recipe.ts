@@ -11,6 +11,7 @@ export type Arg = {
 export type Instruction = {
   package: string;
   generator: string;
+  basePath?: string;
   args: Arg[];
 };
 export type Recipe = {

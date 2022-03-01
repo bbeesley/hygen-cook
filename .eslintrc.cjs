@@ -1,35 +1,34 @@
-/* eslint-disable prettier/prettier, @typescript-eslint/no-var-requires */
+/* eslint-disable prettier/prettier, @typescript-eslint/no-var-requires, import/extensions */
 const {
   rules: baseBestPracticesRules,
-} = require('eslint-config-airbnb-base/rules/best-practices.js');
+} = require('eslint-config-airbnb-base/rules/best-practices');
 const {
   rules: baseErrorsRules,
-} = require('eslint-config-airbnb-base/rules/errors.js');
-const { rules: baseES6Rules } = require('eslint-config-airbnb-base/rules/es6.js');
+} = require('eslint-config-airbnb-base/rules/errors');
+const { rules: baseES6Rules } = require('eslint-config-airbnb-base/rules/es6');
 const {
   rules: baseImportsRules,
-} = require('eslint-config-airbnb-base/rules/imports.js');
+} = require('eslint-config-airbnb-base/rules/imports');
 const {
   rules: baseStyleRules,
-} = require('eslint-config-airbnb-base/rules/style.js');
+} = require('eslint-config-airbnb-base/rules/style');
 const {
   rules: baseVariablesRules,
-} = require('eslint-config-airbnb-base/rules/variables.js');
+} = require('eslint-config-airbnb-base/rules/variables');
 /* eslint-enable */
 
 const plugins = [
   '@typescript-eslint',
   'eslint-comments',
-  'jest',
   'promise',
   'unicorn',
+  'ava',
 ];
 const extendsModules = [
   'plugin:prettier/recommended',
   'eslint-config-airbnb-base',
   'plugin:@typescript-eslint/recommended',
   'plugin:eslint-comments/recommended',
-  'plugin:jest/recommended',
   'plugin:promise/recommended',
   'prettier',
 ];
@@ -51,7 +50,6 @@ const settings = {
 const env = {
   node: true,
   browser: true,
-  jest: true,
 };
 const rules = {
   'no-console': 'off',
@@ -301,6 +299,32 @@ const overrides = [
     rules: {
       'no-underscore-dangle': 'off',
       '@typescript-eslint/explicit-function-return-type': 'off',
+      'ava/assertion-arguments': 'error',
+      'ava/hooks-order': 'error',
+      'ava/max-asserts': ['off', 5],
+      'ava/no-async-fn-without-await': 'error',
+      'ava/no-duplicate-modifiers': 'error',
+      'ava/no-identical-title': 'error',
+      'ava/no-import-test-files': 'error',
+      'ava/no-incorrect-deep-equal': 'error',
+      'ava/no-inline-assertions': 'error',
+      'ava/no-nested-tests': 'error',
+      'ava/no-only-test': 'error',
+      'ava/no-skip-assert': 'error',
+      'ava/no-skip-test': 'error',
+      'ava/no-todo-implementation': 'error',
+      'ava/no-todo-test': 'warn',
+      'ava/no-unknown-modifiers': 'error',
+      'ava/prefer-async-await': 'error',
+      'ava/prefer-power-assert': 'off',
+      'ava/prefer-t-regex': 'error',
+      'ava/test-title': 'error',
+      'ava/test-title-format': 'off',
+      'ava/use-t': 'error',
+      'ava/use-t-throws-async-well': 'error',
+      'ava/use-t-well': 'error',
+      'ava/use-test': 'error',
+      'ava/use-true-false': 'error',
     },
   },
   {
@@ -325,17 +349,10 @@ const overrides = [
   },
   {
     files: ['**/*.js'],
-    parser: '@babel/eslint-parser',
-    parserOptions: {
-      sourceType: 'module',
-      allowImportExportEverywhere: false,
-      codeFrame: true,
-    },
     extends: [
       'plugin:prettier/recommended',
       'eslint-config-airbnb-base',
       'plugin:eslint-comments/recommended',
-      'plugin:jest/recommended',
       'plugin:promise/recommended',
       'prettier',
     ],

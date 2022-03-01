@@ -1,5 +1,6 @@
 import { readFile } from 'async-fs-wrapper';
 import { load } from 'js-yaml';
+import { resolve } from 'path';
 
 import { Arg, CliArgs, Recipe } from './@types';
 import { addPackage } from './add';
@@ -20,7 +21,7 @@ export async function cook({
   recipe: recipePath,
   packageManager,
 }: CliArgs): Promise<void> {
-  const recipeContent = await readFile(recipePath);
+  const recipeContent = await readFile(recipePath, { encoding: 'utf8' });
   const recipe = load(recipeContent) as Recipe;
   const { ingredients = [] } = recipe;
   console.log('preparing ingredients');
@@ -30,6 +31,11 @@ export async function cook({
   const { instructions = [] } = recipe;
   console.log('following instructions');
   for (const step of instructions) {
-    await runHygen([step.package, step.generator, ...prepareArgs(step.args)]);
+    const cwd = step.basePath
+      ? resolve(process.cwd(), step.basePath)
+      : process.cwd();
+    await runHygen([step.package, step.generator, ...prepareArgs(step.args)], {
+      cwd,
+    });
   }
 }
