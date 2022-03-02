@@ -37,11 +37,13 @@ instructions:
         value: simple-service
   - package: monorepo-package
     generator: new
+    basePath: packages/api
     args:
       - option: name
         value: api
   - package: monorepo-package
     generator: lambda
+    basePath: packages/api
     args:
       - option: name
         value: api-lambda
@@ -49,11 +51,13 @@ instructions:
         value: api
   - package: monorepo-package
     generator: new
+    basePath: packages/ingest
     args:
       - option: name
         value: ingest
   - package: monorepo-package
     generator: lambda
+    basePath: packages/ingest
     args:
       - option: name
         value: ingest-lambda
