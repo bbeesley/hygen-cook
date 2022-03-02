@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/bbeesley/hygen-cook/compare/v1.2.25...v1.3.0) (2022-03-02)
+
+
+### Features
+
+* add support for setting an output path on an ingredient ([280f19d](https://github.com/bbeesley/hygen-cook/commit/280f19db3fc4b6287ae350898ec3627160ae4bf1)), closes [#94](https://github.com/bbeesley/hygen-cook/issues/94)
+
 ## [1.2.25](https://github.com/bbeesley/hygen-cook/compare/v1.2.24...v1.2.25) (2022-03-01)
 
 ## [1.2.24](https://github.com/bbeesley/hygen-cook/compare/v1.2.23...v1.2.24) (2022-03-01)
