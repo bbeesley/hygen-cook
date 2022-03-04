@@ -32,6 +32,7 @@ test.serial.afterEach(async () => {
   });
 });
 test.serial('passes the expected arguments to the cook function', async (t) => {
+  t.timeout(120e3);
   const recipe = {
     name: 'testing',
     ingredients: ['hygen-react-ts'],
