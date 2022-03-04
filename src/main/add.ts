@@ -1,11 +1,12 @@
 import { access, mkdir, readdir } from 'async-fs-wrapper';
-import chalk from 'chalk';
+import { green, yellow } from 'chalk';
 import execa from 'execa';
 import fs from 'fs-extra';
 import inquirer from 'inquirer';
 import ora from 'ora';
-import { join } from 'path';
+import { join, dirname } from 'path';
 import { URL } from 'url';
+
 import { AddOptions, CliPackageManager } from './@types';
 
 const tmpl = (x): string => join('_templates', x);
@@ -38,7 +39,6 @@ export async function addPackage(
   packageManager: CliPackageManager,
   options: AddOptions = {},
 ): Promise<void> {
-  const { red, green, yellow } = chalk;
   const { name, isUrl } = resolvePackage(pkg, options);
   const spinner = ora(`Adding: ${name}`).start();
 
@@ -51,7 +51,10 @@ export async function addPackage(
       ],
       { shell: true, cwd: process.cwd() },
     );
-    const templatePath = join('./node_modules', name, '_templates');
+    const templatePath = join(
+      dirname(require.resolve(`${name}/package.json`)),
+      '_templates',
+    );
     await mkdir(join(process.cwd(), '_templates'), {
       recursive: true,
     });
@@ -86,8 +89,8 @@ export async function addPackage(
       console.log(green(`   added: ${maybePrefixed}`));
     }
   } catch (ex) {
-    console.log(
-      red(`\n\nCan't add ${name}${isUrl ? ` (source: ${pkg})` : ''}\n\n`),
+    console.error(
+      `\n\nCan't add ${name}${isUrl ? ` (source: ${pkg})` : ''}\n\n`,
       ex,
     );
   } finally {
