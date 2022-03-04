@@ -40,4 +40,4 @@ jobs:
       - name: install
         run: npm ci
       - name: commitlint
-        run: ./node_modules/.bin/commitlint --from "$(cat .git/refs/heads/main)" --to HEAD
+        run: ./node_modules/.bin/commitlint --from HEAD~${{ github.event.pull_request.commits }} --to HEAD
