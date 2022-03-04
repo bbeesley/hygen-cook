@@ -28,43 +28,49 @@ npm i -g hygen-cook
 name: My API
 ingredients:
   - https://github.com/hygen-generators/scaffolder-demo-hygen
-  - https://github.com/hygen-generators/github-actions-generator
+  - github-actions-generators
 instructions:
-  - package: monorepo
-    generator: new
+  - ingredient: scaffolder-demo-hygen
+    generator: monorepo
+    action: new
     args:
       - option: name
         value: simple-service
-  - package: monorepo-package
-    generator: new
+  - ingredient: scaffolder-demo-hygen
+    generator: monorepo-package
+    action: new
     basePath: packages/api
     args:
       - option: name
         value: api
-  - package: monorepo-package
-    generator: lambda
+  - ingredient: scaffolder-demo-hygen
+    generator: monorepo-package
+    action: lambda
     basePath: packages/api
     args:
       - option: name
         value: api-lambda
       - option: component
         value: api
-  - package: monorepo-package
-    generator: new
+  - ingredient: scaffolder-demo-hygen
+    generator: monorepo-package
+    action: new
     basePath: packages/ingest
     args:
       - option: name
         value: ingest
-  - package: monorepo-package
-    generator: lambda
+  - ingredient: scaffolder-demo-hygen
+    generator: monorepo-package
+    action: lambda
     basePath: packages/ingest
     args:
       - option: name
         value: ingest-lambda
       - option: component
         value: ingest
-  - package: github-actions
-    generator: build-test-publish 
+  - ingredient: github-actions-generators
+    generator: github-actions
+    action: build-test-publish
     args:
       - option: admin-github-token
         value: SUPER_SECRET_TOKEN
@@ -74,8 +80,9 @@ instructions:
         value: '14.11'
       - option: use-commit-lint
       - option: use-lerna
-  - package: github-actions
-    generator: dependabot
+  - ingredient: github-actions-generators
+    generator: github-actions
+    action: dependabot
     args:
       - option: admin-github-token
         value: SUPER_SECRET_TOKEN
@@ -83,8 +90,9 @@ instructions:
         value: main
       - option: node-version
         value: '14.11'
-  - package: github-actions
-    generator: terraform-deploy
+  - ingredient: github-actions-generators
+    generator: github-actions
+    action: terraform-deploy
     args:
       - option: admin-github-token
         value: SUPER_SECRET_TOKEN
@@ -99,6 +107,7 @@ hygen-cook -r path/to/my-api-recipe.yml -m npm
 ```
 
 ### CLI Ref
+
 ```shell
 hygen-cook --help
 Options:
@@ -110,4 +119,3 @@ Options:
       --help            Show help                                      [boolean]
 
 ```
-

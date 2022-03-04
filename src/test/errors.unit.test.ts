@@ -4,9 +4,7 @@ import { writeFile } from 'fs/promises';
 import { dump } from 'js-yaml';
 import { resolve } from 'path';
 import sinon from 'sinon';
-
-import { CliPackageManager } from '../main/@types';
-import { cook } from '../main/chef';
+import { cook } from '../main/cook';
 
 const execOpts = {
   cwd: resolve(__dirname, 'errors-test-output'),
@@ -29,6 +27,7 @@ test.serial.beforeEach(async () => {
     cwd: __dirname,
   });
 });
+
 test.serial.afterEach(async () => {
   sandbox.restore();
   await execa('rm', ['-Rf', 'errors-test-output'], {
@@ -36,14 +35,16 @@ test.serial.afterEach(async () => {
     cwd: __dirname,
   });
 });
+
 test.serial('throws an error if the ingredient does not exist', async (t) => {
   const recipe = {
     name: 'testing',
     ingredients: ['i-do-not-exist'],
     instructions: [
       {
-        package: 'react-native-component',
-        generator: 'new',
+        ingredients: 'i-do-not-exist',
+        generator: 'react-native-component',
+        action: 'new',
       },
     ],
   };
@@ -51,17 +52,18 @@ test.serial('throws an error if the ingredient does not exist', async (t) => {
   await writeFile(resolve(execOpts.cwd, 'recipe.yml'), yamlRecipe);
   await t.throwsAsync(
     cook({
-      recipe: resolve(execOpts.cwd, 'recipe.yml'),
-      packageManager: CliPackageManager.npm,
+      recipePath: resolve(execOpts.cwd, 'recipe.yml'),
+      shouldOverwriteTemplates: true,
     }),
   );
   t.true(consoleErrorStub.calledWith("\n\nCan't add i-do-not-exist\n\n"));
 });
+
 test.serial('throws an error if the recipe does not exist', async (t) => {
   await t.throwsAsync(
     cook({
-      recipe: resolve(execOpts.cwd, 'recipe.yml'),
-      packageManager: CliPackageManager.npm,
+      recipePath: resolve(execOpts.cwd, 'recipe.yml'),
+      shouldOverwriteTemplates: true,
     }),
   );
   t.true(
