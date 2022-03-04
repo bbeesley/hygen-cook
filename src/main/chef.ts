@@ -21,8 +21,14 @@ export async function cook({
   recipe: recipePath,
   packageManager,
 }: CliArgs): Promise<void> {
-  const recipeContent = await readFile(recipePath, { encoding: 'utf8' });
-  const recipe = load(recipeContent) as Recipe;
+  let recipe: Recipe;
+  try {
+    const recipeContent = await readFile(recipePath, { encoding: 'utf8' });
+    recipe = load(recipeContent) as Recipe;
+  } catch (err) {
+    console.error(`Unable to load recipe from ${recipePath}`, err);
+    throw err;
+  }
   const { ingredients = [] } = recipe;
   console.log('preparing ingredients');
   for (const dep of ingredients) {
