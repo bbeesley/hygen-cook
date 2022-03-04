@@ -7,7 +7,7 @@ import sinon from 'sinon';
 
 const execOpts = {
   cwd: resolve(__dirname, 'bin-test-output'),
-  timeout: 30e3,
+  timeout: 120e3,
 };
 
 sinon.stub(process, 'cwd').callsFake(() => execOpts.cwd);
