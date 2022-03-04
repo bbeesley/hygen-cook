@@ -24,6 +24,7 @@ test.serial.beforeEach(async () => {
     cwd: __dirname,
   });
 });
+
 test.serial.afterEach(async () => {
   sandbox.restore();
   await execa('rm', ['-Rf', 'bin-test-output'], {
@@ -31,6 +32,7 @@ test.serial.afterEach(async () => {
     cwd: __dirname,
   });
 });
+
 test.serial('passes the expected arguments to the cook function', async (t) => {
   t.timeout(120e3);
   const recipe = {
@@ -38,8 +40,9 @@ test.serial('passes the expected arguments to the cook function', async (t) => {
     ingredients: ['hygen-react-ts'],
     instructions: [
       {
-        package: 'feature',
-        generator: 'new',
+        ingredient: 'hygen-react-ts',
+        generator: 'feature',
+        action: 'new',
         args: [
           {
             option: 'Name',

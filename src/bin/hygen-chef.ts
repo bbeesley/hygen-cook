@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 import yargs from 'yargs/yargs';
-import { cook } from '../main/chef';
-import { CliArgs } from '../main/@types';
+import { cook } from '../main/cook';
 
 const { argv } = yargs(process.argv.slice(2))
   .option('recipe', {
@@ -11,20 +10,18 @@ const { argv } = yargs(process.argv.slice(2))
     requiresArg: true,
     describe: 'The recipe to cook up',
   })
-  .option('packageManager', {
-    alias: 'm',
-    demandOption: true,
-    string: true,
+  .option('overwriteTemplates', {
+    demandOption: false,
+    boolean: true,
     requiresArg: false,
-    default: 'npm',
-    choices: ['npm', 'yarn'],
-    describe: 'The package manager to use when installing generator packages',
+    default: false,
+    describe: 'Should overwrite templates?',
   })
   .help();
 
 cook({
   /* eslint-disable dot-notation */
-  recipe: argv['recipe'],
-  packageManager: argv['packageManager'],
+  recipePath: argv['recipe'],
+  shouldOverwriteTemplates: argv['overwriteTemplates'],
   /* eslint-enable dot-notation */
-} as CliArgs);
+});

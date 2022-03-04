@@ -4,9 +4,7 @@ import { stat, writeFile } from 'fs/promises';
 import { dump } from 'js-yaml';
 import { resolve } from 'path';
 import sinon from 'sinon';
-
-import { CliPackageManager } from '../main/@types';
-import { cook } from '../main/chef';
+import { cook } from '../main/cook';
 
 const execOpts = {
   cwd: resolve(__dirname, 'args-test-output'),
@@ -25,20 +23,23 @@ test.beforeEach(async () => {
     cwd: __dirname,
   });
 });
+
 test.afterEach(async () => {
   await execa('rm', ['-Rf', 'args-test-output'], {
     shell: true,
     cwd: __dirname,
   });
 });
+
 test.serial('converts instructions to hygen args', async (t) => {
   const recipe = {
     name: 'testing',
     ingredients: ['hygen-emiketic-react'],
     instructions: [
       {
-        package: 'react-native-component',
-        generator: 'new',
+        ingredient: 'hygen-emiketic-react',
+        generator: 'react-native-component',
+        action: 'new',
         args: [
           {
             option: 'name',
@@ -55,8 +56,8 @@ test.serial('converts instructions to hygen args', async (t) => {
   const yamlRecipe = dump(recipe);
   await writeFile(resolve(execOpts.cwd, 'recipe.yml'), yamlRecipe);
   await cook({
-    recipe: resolve(execOpts.cwd, 'recipe.yml'),
-    packageManager: CliPackageManager.npm,
+    recipePath: resolve(execOpts.cwd, 'recipe.yml'),
+    shouldOverwriteTemplates: true,
   });
   const dirStatRes = await stat(
     resolve(execOpts.cwd, 'src/features/TestFeature'),

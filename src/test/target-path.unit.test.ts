@@ -5,8 +5,7 @@ import { dump } from 'js-yaml';
 import { resolve } from 'path';
 import sinon from 'sinon';
 
-import { CliPackageManager } from '../main/@types';
-import { cook } from '../main/chef';
+import { cook } from '../main/cook';
 
 const execOpts = {
   cwd: resolve(__dirname, 'target-path-test-output'),
@@ -28,20 +27,23 @@ test.beforeEach(async () => {
     cwd: __dirname,
   });
 });
+
 test.afterEach(async () => {
   await execa('rm', ['-Rf', 'target-path-test-output'], {
     shell: true,
     cwd: __dirname,
   });
 });
+
 test.serial('allows not setting a non standard target path', async (t) => {
   const recipe = {
     name: 'testing',
     ingredients: ['hygen-react-ts'],
     instructions: [
       {
-        package: 'feature',
-        generator: 'new',
+        ingredient: 'hygen-react-ts',
+        generator: 'feature',
+        action: 'new',
         args: [
           {
             option: 'Name',
@@ -54,8 +56,8 @@ test.serial('allows not setting a non standard target path', async (t) => {
   const yamlRecipe = dump(recipe);
   await writeFile(resolve(execOpts.cwd, 'recipe.yml'), yamlRecipe);
   await cook({
-    recipe: resolve(execOpts.cwd, 'recipe.yml'),
-    packageManager: CliPackageManager.npm,
+    recipePath: resolve(execOpts.cwd, 'recipe.yml'),
+    shouldOverwriteTemplates: false,
   });
   const filesList = await readdir(resolve(execOpts.cwd, 'src/testing'));
   t.true(filesList.length > 1);
@@ -68,8 +70,9 @@ test.serial('allows setting a non standard target path', async (t) => {
     ingredients: ['hygen-react-ts'],
     instructions: [
       {
-        package: 'feature',
-        generator: 'new',
+        ingredient: 'hygen-react-ts',
+        generator: 'feature',
+        action: 'new',
         basePath: 'deep',
         args: [
           {
@@ -83,8 +86,8 @@ test.serial('allows setting a non standard target path', async (t) => {
   const yamlRecipe = dump(recipe);
   await writeFile(resolve(execOpts.cwd, 'recipe.yml'), yamlRecipe);
   await cook({
-    recipe: resolve(execOpts.cwd, 'recipe.yml'),
-    packageManager: CliPackageManager.npm,
+    recipePath: resolve(execOpts.cwd, 'recipe.yml'),
+    shouldOverwriteTemplates: false,
   });
   const filesList = await readdir(resolve(execOpts.cwd, 'deep/src/testing'));
   t.true(filesList.length > 1);
