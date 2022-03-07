@@ -109,7 +109,9 @@ async function copyNpmPackageGenerators(
   { shouldOverwriteTemplates }: Pick<CookArgs, 'shouldOverwriteTemplates'>,
 ): Promise<void> {
   const nodeModuleDir = dirname(
-    require.resolve(`${npmPackage.name}/package.json`),
+    require.resolve(`${npmPackage.name}/package.json`, {
+      paths: [process.cwd()],
+    }),
   );
   const sourceTemplateDir = join(nodeModuleDir, '_templates');
   const targetTemplateDir = await createTemplatesDir();
