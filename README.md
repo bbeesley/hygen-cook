@@ -103,7 +103,7 @@ instructions:
 ### Time to cook
 
 ```shell
-hygen-cook -r path/to/my-api-recipe.yml -m npm
+hygen-cook -r path/to/my-api-recipe.yml
 ```
 
 ### CLI Ref
@@ -111,11 +111,10 @@ hygen-cook -r path/to/my-api-recipe.yml -m npm
 ```shell
 hygen-cook --help
 Options:
-      --version         Show version number                            [boolean]
-  -r, --recipe          The recipe to cook up                [string] [required]
-  -m, --packageManager  The package manager to use when installing generator
-                        packages
-                   [string] [required] [choices: "npm", "yarn"] [default: "npm"]
-      --help            Show help                                      [boolean]
+      --version             Show version number                        [boolean]
+  -r, --recipe              The recipe to cook up            [string] [required]
+      --overwriteTemplates  Should overwrite templates?
+                                                      [boolean] [default: false]
+      --help                Show help                                  [boolean]
 
 ```
