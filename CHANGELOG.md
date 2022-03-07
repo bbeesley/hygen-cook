@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/bbeesley/hygen-cook/compare/v1.4.0...v1.4.1) (2022-03-07)
+
+
+### Bug Fixes
+
+* ensure modules are correctly resolved from the current working dir ([10c5fa0](https://github.com/bbeesley/hygen-cook/commit/10c5fa05267023be3fe2c9aa38aab4e6ea6d55e2))
+
 # [1.4.0](https://github.com/bbeesley/hygen-cook/compare/v1.3.7...v1.4.0) (2022-03-07)
 
 
