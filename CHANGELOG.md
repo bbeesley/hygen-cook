@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/bbeesley/hygen-cook/compare/v1.3.7...v1.4.0) (2022-03-07)
+
+
+### Features
+
+* add support for namespacing packages ([e307047](https://github.com/bbeesley/hygen-cook/commit/e307047d50270e57f138b549211d3d0a8360a36e))
+
 ## [1.3.7](https://github.com/bbeesley/hygen-cook/compare/v1.3.6...v1.3.7) (2022-03-07)
 
 ## [1.3.6](https://github.com/bbeesley/hygen-cook/compare/v1.3.5...v1.3.6) (2022-03-07)
