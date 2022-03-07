@@ -76,8 +76,6 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-unicorn": "^41.0.0",
-    "hygen-emiketic-react": "github:emiketic/hygen-emiketic-react",
-    "hygen-react-ts": "^1.0.1",
     "prettier": "^2.5.1",
     "semantic-release": "^19.0.2",
     "sinon": "^13.0.1",
