@@ -40,7 +40,7 @@ function resolveNpmPackage(ingredient: string): NpmPackage {
 async function installNpmPackage({
   name,
 }: Pick<NpmPackage, 'name'>): Promise<void> {
-  await execa('npm', ['i -no-save', name], {
+  await execa('npm', ['i', '--no-save', name], {
     shell: true,
     cwd: process.cwd(),
   });
