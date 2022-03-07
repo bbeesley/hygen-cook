@@ -1,3 +1,10 @@
+## [1.4.3](https://github.com/bbeesley/hygen-cook/compare/v1.4.2...v1.4.3) (2022-03-07)
+
+
+### Bug Fixes
+
+* correct no-save command ([fe37db6](https://github.com/bbeesley/hygen-cook/commit/fe37db6ffd7fa1b98d57dbaf7d62e15e1ae6682f))
+
 ## [1.4.2](https://github.com/bbeesley/hygen-cook/compare/v1.4.1...v1.4.2) (2022-03-07)
 
 ## [1.4.1](https://github.com/bbeesley/hygen-cook/compare/v1.4.0...v1.4.1) (2022-03-07)
