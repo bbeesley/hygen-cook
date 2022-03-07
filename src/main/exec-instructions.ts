@@ -6,8 +6,8 @@ import { runHygen } from './hygen/run-hygen';
  * Prepares arguments for passing them to hygen (--{option-name} {option-value}).
  *
  * @param {Arg[]} args Args to pass to hygen.
- * @param {Arg[]} args[].name Option name to pass to hygen.
- * @param {Arg[]} agrs[].value Optional. Option value to pass to hygen.
+ * @param {Arg[]} args[].name Arg name to pass to hygen.
+ * @param {Arg[]} agrs[].value Optional. Arg value to pass to hygen.
  *
  * @returns {string[]}
  */
@@ -31,7 +31,9 @@ function prepareArgs(args: Arg[]): string[] {
  * @param {string} instruction.ingredient Ingredient npm package name.
  * @param {string} instruction.generator Generator name in the ingredient.
  * @param {string} instruction.action Action name in the generator.
- * @param {string} instruction.args Action name in the generator.
+ * @param {Arg[]} instruction.args Instruction arguments.
+ * @param {string} instruction.args[].name Arg name to pass to hygen.
+ * @param {string} instruction.agrs[].value Optional. Arg value to pass to hygen.
  * @param {string} instruction.basePath Optional. Set the base path where the action is executed.
  *
  * @returns {Promise<void>}
@@ -56,7 +58,9 @@ async function execInstruction({
  * @param {string} instructions[].ingredient Ingredient npm package name.
  * @param {string} instructions[].generator Generator name in the ingredient.
  * @param {string} instructions[].action Action name in the generator.
- * @param {string} instructions[].args Action name in the generator.
+ * @param {Arg[]} instructions[].args Instruction arguments.
+ * @param {string} instructions[].args[].name Arg name to pass to hygen.
+ * @param {string} instructions[].agrs[].value Optional. Arg value to pass to hygen.
  * @param {string} instructions[].basePath Optional. Used to change the working directory.
  *
  * @returns {Promise<void>}
