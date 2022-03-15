@@ -1,6 +1,6 @@
 module.exports = {
   files: ['src/test/**/*.test.ts', 'src/test/*.test.ts'],
-  concurrency: 5,
+  concurrency: 1,
   failFast: true,
   failWithoutAssertions: false,
   verbose: true,

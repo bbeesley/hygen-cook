@@ -17,7 +17,7 @@ sinon.stub(console, 'error');
 sinon.stub(console, 'log');
 sinon.stub(console, 'info');
 
-test.beforeEach(async () => {
+test.serial.beforeEach(async () => {
   await execa('rm', ['-Rf', 'target-path-test-output'], {
     shell: true,
     cwd: __dirname,
