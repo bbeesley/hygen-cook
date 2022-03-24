@@ -6,7 +6,7 @@
     "declarationMap": true, // emit maps for the declaration files so your editor works properly with them
     "isolatedModules": true, // tsc examines the whole project when compiling, babel does not. Setting this to true ensures that each file can be transformed without introspection into it's imports and exports (basically stops you doing stuff that will make babel error)
     "lib": ["ESNext", "DOM", "DOM.Iterable"], // feature set to allow in the project, choosing ESNext means everything is supported
-    "module": "ES2020", // tells tsc to transform es imports/exports to requires and module.exports. Use "ESNext" to leave your import/export statements intact in the output
+    "module": "commonjs", // tells tsc to transform es imports/exports to requires and module.exports. Use "ESNext" to leave your import/export statements intact in the output
     "target": "ES2020", // feature set of the runtime environment - node 14 supports all of ES2020
     "moduleResolution": "node", // this just tells ts that we're using node rather than the old legacy typescript module resolution (looks kinda like xml, you might see it in old documentation)
     "outDir": "dist", // directory we're compiling out to

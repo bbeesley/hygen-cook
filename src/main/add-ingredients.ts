@@ -53,9 +53,13 @@ async function installNpmPackage({
  */
 async function createTemplatesDir(): Promise<string> {
   const templatesPath = join(process.cwd(), '_templates');
-  await mkdir(join(process.cwd(), '_templates'), {
-    recursive: true,
-  });
+  try {
+    await mkdir(join(process.cwd(), '_templates'), {
+      recursive: true,
+    });
+  } catch (err) {
+    // no problem if directory exists
+  }
   return templatesPath;
 }
 
@@ -89,6 +93,8 @@ async function copyNpmPackageGenerator({
   }
   await fs.copy(sourcePath, targetPath, {
     recursive: true,
+    errorOnExist: false,
+    overwrite: true,
   });
   console.log(green(` added: ${name}/${generator}`));
 }
@@ -145,6 +151,7 @@ function logErrorAddingIngredient(e: Error, { name, repo }: NpmPackage): void {
   console.error(
     `\n\nCan't add ${name}${repo ? ` (source: ${repo})` : ''}\n\n`,
     e,
+    e.stack,
   );
 }
 
