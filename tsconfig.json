@@ -1,39 +1,41 @@
 {
   "compilerOptions": {
-    "declaration": true,
-    "esModuleInterop": true,
-    "inlineSourceMap": true,
-    "inlineSources": true,
-    "lib": ["ESNext"],
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "noImplicitAny": false,
-    "outDir": "./dist/",
-    "preserveConstEnums": true,
-    "resolveJsonModule": true,
-    "strictNullChecks": true,
-    "allowJs": true,
-    "target": "ES2019"
+    "allowJs": true, // its ok to import js files as well as ts files
+    "checkJs": true, // use type inference to make an attempt at type checking js files
+    "declaration": true, // emit .d.ts files when compiling
+    "declarationMap": true, // emit maps for the declaration files so your editor works properly with them
+    "isolatedModules": true, // tsc examines the whole project when compiling, babel does not. Setting this to true ensures that each file can be transformed without introspection into it's imports and exports (basically stops you doing stuff that will make babel error)
+    "lib": ["ESNext", "DOM", "DOM.Iterable"], // feature set to allow in the project, choosing ESNext means everything is supported
+    "module": "ES2020", // tells tsc to transform es imports/exports to requires and module.exports. Use "ESNext" to leave your import/export statements intact in the output
+    "target": "ES2020", // feature set of the runtime environment - node 14 supports all of ES2020
+    "moduleResolution": "node", // this just tells ts that we're using node rather than the old legacy typescript module resolution (looks kinda like xml, you might see it in old documentation)
+    "outDir": "dist", // directory we're compiling out to
+    "sourceMap": true, // create source maps
+    "strict": true, // equivalent to "use strict"
+    "noImplicitAny": true, // don't allow untyped stuff if ts cant accurately infer the type
+    "strictFunctionTypes": true, // look at the actual functions' types rather than relying on any aliases (eg, you might have a set of functions in an object whose type is Record<string, (config: Record<string, string | Language>) => MappedConfig>, but some functions in that map may require that config is Record<string, Language>, this ensures tsc actually looks at the functions in the object rather than relying on the type from the object containing the functions)
+    "strictNullChecks": true, // don't allow possibly null/undefined values to be used in contexts where a value is expected
+    "allowSyntheticDefaultImports": true, // lets you use `import uuid from 'uuid'` instead of needing to do `import * as uuid from 'uuid'` for modules which don't have a default export
+    "baseUrl": "./src", // where the file hierarchy starts. Eg, if I have a file `src/main/index.ts`, with this setting it will compile out to `dist/main/index.js`, if I set baseUrl to "." then it will compile out to `dist/src/main/index.js`, if I set baseUrl to "./src/main" my file just compiles out to `dist/index.js`.
+    "esModuleInterop": true, // forces compatibility with es imports/exports (typescript's import/export spec has some features the ES spec doesn't allow)
+    "importHelpers": true, // this tells tsc to import polyfills from the "tslib" module instead of repeatedly inlining them. IMPORTANT: with this setting you need tslib as a dependency (not dev dependency). Set it to false to inline polyfills and remove the requirement to have a tslib dependency.
+    "allowUnreachableCode": false, // essentially linting, forces an error for unreachable code (ie stuff after the return statement in a function)
+    "allowUnusedLabels": false, // labels are an old js feature that nobody uses, they look like object syntax within a function, and are used for adding metadata to an object. The only time you're likely to see them in our code is if you made a typo and incorrectly closed or opened an object. Banning them means we can't accidentally make something a label instead of an object.
+    "forceConsistentCasingInFileNames": true, // by default ts imports are case insensitive, so with a file `monkey-banana-waffle.ts` ts will allow you to import it as `import stuff from './Monkey-Banana-Waffle';`, this is stupid and is only there because ts is microsoft and microsoft don't have case sensitive filesystems. This disables that stupid behaviour and makes you use the actual case.
+    "resolveJsonModule": false, // ESM doesn't yet support JSON modules.
+    "pretty": true, // Enable color and formatting in output to make compiler errors easier to read
+    "stripInternal": true, // Enable color and formatting in output to make compiler errors easier to read
+    "noImplicitReturns": true, // Enable color and formatting in output to make compiler errors easier to read
+    "noUnusedLocals": true, // Enable error reporting when a local variables aren't read.
+    "noUnusedParameters": true, // Raise an error when a function parameter isn't read
+    "noFallthroughCasesInSwitch": true, // Enable error reporting for fallthrough cases in switch statements.
+    "noUncheckedIndexedAccess": true, // Add undefined to a type when accessed using an index.
+    "noPropertyAccessFromIndexSignature": true, // Enforces using indexed accessors for keys declared using an indexed type
+    "noEmitOnError": true, // Disable emitting files if any type checking errors are reported.
+    "useDefineForClassFields": true, // Emit ECMAScript-standard-compliant class fields.
+    "rootDir": "src",
+    "useUnknownInCatchVariables": false
   },
-  "typeAcquisition": {
-    "enable": false
-  },
-  "include": [
-    "**/*.ts",
-    "**/.*.ts",
-    "**/*.js",
-    "**/*.mjs",
-    "**/*.cjs",
-    "**/.*.js",
-    "**/.*.mjs",
-    "**/.*.cjs",
-    "*.js",
-    "*.mjs",
-    "*.cjs",
-    ".*.js",
-    ".*.mjs",
-    ".*.cjs",
-    "*.ts",
-    ".*.ts"
-  ]
+  "include": ["src/**/*.ts"],
+  "exclude": ["src/*.test.*", "src/**/*.test.*", "src/test/*.ts"]
 }

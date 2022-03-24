@@ -5,5 +5,5 @@ export type Instruction = {
   generator: string;
   action: string;
   basePath?: string;
-  args: Arg[];
+  args?: Arg[];
 };

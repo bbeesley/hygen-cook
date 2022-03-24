@@ -21,7 +21,9 @@ const { argv } = yargs(process.argv.slice(2))
 
 cook({
   /* eslint-disable dot-notation */
-  recipePath: argv['recipe'],
-  shouldOverwriteTemplates: argv['overwriteTemplates'],
+  recipePath: (argv as Record<string, any>)['recipe'] as string,
+  shouldOverwriteTemplates: (argv as Record<string, any>)[
+    'overwriteTemplates'
+  ] as boolean,
   /* eslint-enable dot-notation */
 });

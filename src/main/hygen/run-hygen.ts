@@ -58,7 +58,8 @@ function configureHygen(config?: RunnerConfig): RunnerConfig {
     cwd: process.cwd(),
     logger: new Logger(console.log.bind(console)),
     exec: execFn(config),
-    debug: !!process.env.DEBUG,
+    // eslint-disable-next-line dot-notation
+    debug: !!process.env['DEBUG'],
     createPrompter,
     ...getHygenTemplatesOption(config),
     ...(config || {}),

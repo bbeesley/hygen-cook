@@ -18,7 +18,7 @@ function prepareArgs(args: Arg[]): string[] {
       `--${option}`,
       ...(value ? [value] : []),
     ],
-    [],
+    [] as string[],
   );
 }
 
@@ -43,7 +43,7 @@ async function execInstruction({
   ingredient,
   generator,
   action,
-  args,
+  args = [],
 }: Instruction): Promise<void> {
   const cwd = basePath ? resolve(process.cwd(), basePath) : process.cwd();
   await runHygen([`${ingredient}/${generator}`, action, ...prepareArgs(args)], {
