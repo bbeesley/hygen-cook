@@ -1,3 +1,11 @@
+## [1.4.21](https://github.com/bbeesley/hygen-cook/compare/v1.4.20...v1.4.21) (2022-03-24)
+
+
+### Bug Fixes
+
+* correct a type error when args not defined ([8b00b57](https://github.com/bbeesley/hygen-cook/commit/8b00b57c8809810fe253097ba8b45d1106da8544))
+* correct ts declaration outputs ([96f7036](https://github.com/bbeesley/hygen-cook/commit/96f70365d301d5106ac7aa714b32dc065f42c1cf))
+
 ## [1.4.20](https://github.com/bbeesley/hygen-cook/compare/v1.4.19...v1.4.20) (2022-03-22)
 
 ## [1.4.19](https://github.com/bbeesley/hygen-cook/compare/v1.4.18...v1.4.19) (2022-03-22)
