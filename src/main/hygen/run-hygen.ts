@@ -1,7 +1,6 @@
 import { engine, Logger, resolve } from 'hygen';
 import { RunnerConfig, Prompter, ActionResult } from 'hygen/src/types';
 import { command, ExecaChildProcess } from 'execa';
-import { join } from 'path';
 import enquirer from 'enquirer';
 
 /**
@@ -40,9 +39,9 @@ function createPrompter<Q, T>(): Prompter<Q, T> {
  * @param {RunnerConfig} config The runner configuration.
  * @returns {RunnerConfig}
  */
-function configureHygen(config: RunnerConfig): RunnerConfig {
+function configureHygen(config?: RunnerConfig): RunnerConfig {
   return {
-    cwd: join(process.cwd()),
+    cwd: process.cwd(),
     logger: new Logger(console.log.bind(console)),
     exec: execFn(config),
     // eslint-disable-next-line dot-notation
@@ -61,7 +60,7 @@ function configureHygen(config: RunnerConfig): RunnerConfig {
  */
 export async function runHygen(
   argv: string[],
-  config: RunnerConfig,
+  config?: RunnerConfig,
 ): Promise<ActionResult[]> {
   return engine(argv, await resolve(configureHygen(config)));
 }
