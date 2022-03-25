@@ -1,10 +1,10 @@
-import { mkdir, readdir } from 'async-fs-wrapper';
+import { mkdir } from 'async-fs-wrapper';
 import { green, yellow } from 'chalk';
 import execa from 'execa';
 import fs from 'fs-extra';
 import ora from 'ora';
 import { join, dirname } from 'path';
-import { NpmPackage, CookArgs, CopyPackageGeneratorArgs } from './@types';
+import { NpmPackage, CookArgs } from './@types';
 import { HYGEN_COOK_DIR } from './constants';
 import { limitConcurrency } from './limit-concurency';
 
@@ -65,44 +65,9 @@ async function createHygenCookDir(): Promise<string> {
 }
 
 /**
- * Copies all templates for the specified generator in the npm package,
- * namespaced by the npm package name (target: _hygencook/${packageName}/_templates).
+ * Copies all templates for the npm package namespaced by the npm package name.
  *
- * @param {CopyPackageGeneratorArgs} args
- * @param {Pick<NpmPackage, 'name'>} args.npmPackage The npm package.
- * @param {string} args.npmPackage.name The npm package name.
- * @param {string} args.generator The generator name.
- * @param {string} args.sourceTemplateDir The source template directory.
- * @param {string} args.targetTemplateDir The target template directory.
- * @param {string} args.shouldOverwriteTemplates Flags if it should overwrite ingredients templates.
- *
- * @returns {Promise<void>}
- */
-async function copyNpmPackageGenerator({
-  npmPackage: { name },
-  generator,
-  sourceTemplateDir,
-  hygenCookDir,
-  shouldOverwriteTemplates,
-}: CopyPackageGeneratorArgs): Promise<void> {
-  const sourcePath = join(sourceTemplateDir, generator);
-  const targetPath = join(hygenCookDir, name, '_templates', generator);
-  const targetPathExists = await fs.pathExists(targetPath);
-  if (!shouldOverwriteTemplates && targetPathExists) {
-    console.log(yellow(` skipped: ${name}/${generator}`));
-    return;
-  }
-  await fs.copy(sourcePath, targetPath, {
-    recursive: true,
-    errorOnExist: false,
-    overwrite: true,
-  });
-  console.log(green(` added: ${name}/${generator}`));
-}
-
-/**
- * Copies all templates for the generators in the npm package,
- * namespaced by the npm package name.
+ * Note: templates will be copied over to _hygencook/${packageName}/_templates
  *
  * @param {Pick<NpmPackage, 'name'>} npmPackage The npm package.
  * @param {string} npmPackage.name The npm package name.
@@ -111,31 +76,29 @@ async function copyNpmPackageGenerator({
  *
  * @returns {Promise<void>}
  */
-async function copyNpmPackageGenerators(
-  npmPackage: Pick<NpmPackage, 'name'>,
+async function copyNpmPackageTemplates(
+  { name }: Pick<NpmPackage, 'name'>,
   { shouldOverwriteTemplates }: Pick<CookArgs, 'shouldOverwriteTemplates'>,
 ): Promise<void> {
   const nodeModuleDir = dirname(
-    require.resolve(`${npmPackage.name}/package.json`, {
+    require.resolve(`${name}/package.json`, {
       paths: [process.cwd()],
     }),
   );
-  const sourceTemplateDir = join(nodeModuleDir, '_templates');
   const hygenCookDir = await createHygenCookDir();
-  const generators = await readdir(sourceTemplateDir);
-  await Promise.all(
-    generators.map((generator) =>
-      limitConcurrency(() =>
-        copyNpmPackageGenerator({
-          npmPackage,
-          generator,
-          sourceTemplateDir,
-          hygenCookDir,
-          shouldOverwriteTemplates,
-        }),
-      ),
-    ),
-  );
+  const sourceTemplateDir = join(nodeModuleDir, '_templates');
+  const targetTemplateDir = join(hygenCookDir, name, '_templates');
+  const targetPathExists = await fs.pathExists(targetTemplateDir);
+  if (!shouldOverwriteTemplates && targetPathExists) {
+    console.log(yellow(` skipped: ${name}`));
+    return;
+  }
+  await fs.copy(sourceTemplateDir, targetTemplateDir, {
+    recursive: true,
+    errorOnExist: false,
+    overwrite: true,
+  });
+  console.log(green(` added: ${name}`));
 }
 
 /**
@@ -175,7 +138,7 @@ async function addIngredient(
   const spinner = ora(`Adding: ${npmPackage.name}`).start();
   try {
     await installNpmPackage(npmPackage);
-    await copyNpmPackageGenerators(npmPackage, { shouldOverwriteTemplates });
+    await copyNpmPackageTemplates(npmPackage, { shouldOverwriteTemplates });
   } catch (e) {
     logErrorAddingIngredient(e, npmPackage);
   } finally {
