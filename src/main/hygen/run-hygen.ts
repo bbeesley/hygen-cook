@@ -35,33 +35,19 @@ function createPrompter<Q, T>(): Prompter<Q, T> {
 }
 
 /**
- * Sets RunnerConfig.templates option, based on working directory.
- *
- * @param {RunnerConfig} config The runner configuration.
- * @returns {Pick<RunnerConfig, 'templates'>} The templates option on runner configuration.
- */
-function getHygenTemplatesOption(
-  config?: RunnerConfig,
-): Pick<RunnerConfig, 'templates'> {
-  if (config?.cwd === process.cwd()) return {};
-  return { templates: join(process.cwd(), '_templates') };
-}
-
-/**
  * Appends additional configs to the runner config.
  *
  * @param {RunnerConfig} config The runner configuration.
  * @returns {RunnerConfig}
  */
-function configureHygen(config?: RunnerConfig): RunnerConfig {
+function configureHygen(config: RunnerConfig): RunnerConfig {
   return {
-    cwd: process.cwd(),
+    cwd: join(process.cwd()),
     logger: new Logger(console.log.bind(console)),
     exec: execFn(config),
     // eslint-disable-next-line dot-notation
     debug: !!process.env['DEBUG'],
     createPrompter,
-    ...getHygenTemplatesOption(config),
     ...(config || {}),
   };
 }
@@ -75,7 +61,7 @@ function configureHygen(config?: RunnerConfig): RunnerConfig {
  */
 export async function runHygen(
   argv: string[],
-  config?: RunnerConfig,
+  config: RunnerConfig,
 ): Promise<ActionResult[]> {
   return engine(argv, await resolve(configureHygen(config)));
 }
