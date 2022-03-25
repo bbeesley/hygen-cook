@@ -5,6 +5,7 @@ import fs from 'fs-extra';
 import ora from 'ora';
 import { join, dirname } from 'path';
 import { NpmPackage, CookArgs, CopyPackageGeneratorArgs } from './@types';
+import { HYGEN_COOK_DIR } from './constants';
 import { limitConcurrency } from './limit-concurency';
 
 /**
@@ -47,25 +48,25 @@ async function installNpmPackage({
 }
 
 /**
- * Creates the templates directory (_templates).
+ * Creates the hygen cook directory (_hygencook).
  *
  * @returns {Promise<string>} The templates path.
  */
-async function createTemplatesDir(): Promise<string> {
-  const templatesPath = join(process.cwd(), '_templates');
+async function createHygenCookDir(): Promise<string> {
+  const hygenCookDirPath = join(process.cwd(), HYGEN_COOK_DIR);
   try {
-    await mkdir(join(process.cwd(), '_templates'), {
+    await mkdir(hygenCookDirPath, {
       recursive: true,
     });
   } catch (err) {
     // no problem if directory exists
   }
-  return templatesPath;
+  return hygenCookDirPath;
 }
 
 /**
  * Copies all templates for the specified generator in the npm package,
- * namespaced by the npm package name.
+ * namespaced by the npm package name (target: _hygencook/${packageName}/_templates).
  *
  * @param {CopyPackageGeneratorArgs} args
  * @param {Pick<NpmPackage, 'name'>} args.npmPackage The npm package.
@@ -81,11 +82,11 @@ async function copyNpmPackageGenerator({
   npmPackage: { name },
   generator,
   sourceTemplateDir,
-  targetTemplateDir,
+  hygenCookDir,
   shouldOverwriteTemplates,
 }: CopyPackageGeneratorArgs): Promise<void> {
   const sourcePath = join(sourceTemplateDir, generator);
-  const targetPath = join(targetTemplateDir, name, generator);
+  const targetPath = join(hygenCookDir, name, '_templates', generator);
   const targetPathExists = await fs.pathExists(targetPath);
   if (!shouldOverwriteTemplates && targetPathExists) {
     console.log(yellow(` skipped: ${name}/${generator}`));
@@ -120,7 +121,7 @@ async function copyNpmPackageGenerators(
     }),
   );
   const sourceTemplateDir = join(nodeModuleDir, '_templates');
-  const targetTemplateDir = await createTemplatesDir();
+  const hygenCookDir = await createHygenCookDir();
   const generators = await readdir(sourceTemplateDir);
   await Promise.all(
     generators.map((generator) =>
@@ -129,7 +130,7 @@ async function copyNpmPackageGenerators(
           npmPackage,
           generator,
           sourceTemplateDir,
-          targetTemplateDir,
+          hygenCookDir,
           shouldOverwriteTemplates,
         }),
       ),

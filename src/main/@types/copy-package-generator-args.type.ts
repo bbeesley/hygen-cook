@@ -5,5 +5,5 @@ export type CopyPackageGeneratorArgs = {
   npmPackage: Pick<NpmPackage, 'name'>;
   generator: string;
   sourceTemplateDir: string;
-  targetTemplateDir: string;
+  hygenCookDir: string;
 } & Pick<CookArgs, 'shouldOverwriteTemplates'>;

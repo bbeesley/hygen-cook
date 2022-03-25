@@ -1,5 +1,6 @@
-import { resolve } from 'path';
+import { resolve, join } from 'path';
 import { Arg, Instruction } from './@types';
+import { HYGEN_COOK_DIR } from './constants';
 import { runHygen } from './hygen/run-hygen';
 
 /**
@@ -20,6 +21,16 @@ function prepareArgs(args: Arg[]): string[] {
     ],
     [] as string[],
   );
+}
+
+/**
+ * Gets the ingredient template directory.
+ *
+ * @param {string} ingredient Ingredient npm package name.
+ * @returns {string} Ingredient templates directory.
+ */
+function getIngredientTemplateDir(ingredient: string): string {
+  return join(process.cwd(), HYGEN_COOK_DIR, ingredient, '_templates');
 }
 
 /**
@@ -46,8 +57,9 @@ async function execInstruction({
   args = [],
 }: Instruction): Promise<void> {
   const cwd = basePath ? resolve(process.cwd(), basePath) : process.cwd();
-  await runHygen([`${ingredient}/${generator}`, action, ...prepareArgs(args)], {
+  await runHygen([generator, action, ...prepareArgs(args)], {
     cwd,
+    templates: getIngredientTemplateDir(ingredient),
   });
 }
 
