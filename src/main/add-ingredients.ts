@@ -1,6 +1,7 @@
 import { mkdir } from 'async-fs-wrapper';
 import { green, yellow } from 'chalk';
 import execa from 'execa';
+import { writeFile } from 'fs/promises';
 import fs from 'fs-extra';
 import ora from 'ora';
 import { join, dirname } from 'path';
@@ -58,6 +59,12 @@ async function createHygenCookDir(): Promise<string> {
     await mkdir(hygenCookDirPath, {
       recursive: true,
     });
+    await writeFile(
+      join(hygenCookDirPath, 'package.json'),
+      JSON.stringify({
+        type: 'commonjs',
+      }),
+    );
   } catch (err) {
     // no problem if directory exists
   }
