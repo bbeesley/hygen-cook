@@ -1,5 +1,12 @@
 ## [1.4.27](https://github.com/bbeesley/hygen-cook/compare/v1.4.26...v1.4.27) (2022-03-28)
 
+
+### Bug Fixes
+
+* adds a package stub to the _hygencook dir to better handle ts files ([1a3d1d7](https://github.com/bbeesley/hygen-cook/commit/1a3d1d7149852a81194a2459b4b85e8b83de9887))
+
+## [1.4.27](https://github.com/bbeesley/hygen-cook/compare/v1.4.26...v1.4.27) (2022-03-28)
+
 ## [1.4.26](https://github.com/bbeesley/hygen-cook/compare/v1.4.25...v1.4.26) (2022-03-27)
 
 ## [1.4.25](https://github.com/bbeesley/hygen-cook/compare/v1.4.24...v1.4.25) (2022-03-27)
