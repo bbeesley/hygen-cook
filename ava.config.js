@@ -4,7 +4,12 @@ module.exports = {
   failFast: true,
   failWithoutAssertions: false,
   verbose: true,
-  extensions: ['ts'],
-  require: ['ts-node/register'],
+  extensions: {
+    ts: 'module',
+  },
+  nodeArguments: [
+    '--loader=ts-node/esm',
+    '--experimental-specifier-resolution=node',
+  ],
   timeout: '1m',
 };
