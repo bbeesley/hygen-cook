@@ -154,5 +154,80 @@ instructions:
         value: *vNode
       - option: supportNodeVersion
         value: '14.18.3'
+```
 
+#### A monorepo for multiple packages with github actions to build, test, and publish
+
+```yaml:examples/node-monorepo-recipe.yml
+name: a-shiny-set-of-modules
+node: &vNode '16.14.2'
+repo: &repo 'https://github.com/bbeesley/awesome-generators'
+ingredients:
+  - &gha hygen-github-action-generators
+  - &nodemod hygen-node-module-generators
+instructions:
+  - ingredient: *gha
+    generator: gha-workflows
+    action: new
+    args:
+      - option: name
+        value: workflows
+      - option: nodeVersion
+        value: *vNode
+  - ingredient: *nodemod
+    generator: node-module
+    action: new
+    args:
+      - option: name
+        value: root
+      - option: description
+        value: Root package for lerna
+      - option: author
+        value: You <you@your.com>
+      - option: repoName
+        value: *repo
+      - option: nodeVersion
+        value: *vNode
+      - option: supportNodeVersion
+        value: '14.18.3'
+      - option: isLernaRoot
+        value: 'true'
+  - ingredient: *nodemod
+    generator: node-module
+    action: new
+    basePath: packages/a-monorepo-package
+    args:
+      - option: name
+        value: a-monorepo-package
+      - option: description
+        value: One of the packages in my monorepo
+      - option: author
+        value: You <you@your.com>
+      - option: repoName
+        value: *repo
+      - option: nodeVersion
+        value: *vNode
+      - option: supportNodeVersion
+        value: '14.18.3'
+      - option: isLernaChild
+        value: 'true'
+  - ingredient: *nodemod
+    generator: node-module
+    action: new
+    basePath: packages/another-monorepo-package
+    args:
+      - option: name
+        value: another-monorepo-package
+      - option: description
+        value: Another of the packages in my monorepo
+      - option: author
+        value: You <you@your.com>
+      - option: repoName
+        value: *repo
+      - option: nodeVersion
+        value: *vNode
+      - option: supportNodeVersion
+        value: '14.18.3'
+      - option: isLernaChild
+        value: 'true'
 ```
