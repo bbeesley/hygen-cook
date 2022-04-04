@@ -1,0 +1,30 @@
+name: a-shiny-new-module
+node: &vNode '16.14.2'
+ingredients:
+  - &gha hygen-github-action-generators
+  - &nodemod hygen-node-module-generators
+instructions:
+  - ingredient: *gha
+    generator: gha-workflows
+    action: new
+    args:
+      - option: name
+        value: workflows
+      - option: nodeVersion
+        value: *vNode
+  - ingredient: *nodemod
+    generator: node-module
+    action: new
+    args:
+      - option: name
+        value: shiny-new-module
+      - option: description
+        value: A shiny new module to do awesome things
+      - option: author
+        value: You <you@your.com>
+      - option: repoName
+        value: https://github.com/bbeesley/awesome-generators
+      - option: nodeVersion
+        value: *vNode
+      - option: supportNodeVersion
+        value: '14.18.3'

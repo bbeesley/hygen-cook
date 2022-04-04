@@ -118,3 +118,11 @@ Options:
       --help                Show help                                  [boolean]
 
 ```
+
+### Example Recipes
+
+#### A node module with github actions to build, test, and publish
+
+```yaml:examples/node-module-recipe.yml
+
+```
