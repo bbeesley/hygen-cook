@@ -167,6 +167,7 @@ instructions:
         value: *vNode
       - option: supportNodeVersion
         value: '14.18.3'
+
 ```
 
 ### A monorepo for multiple packages with github actions to build, test, and publish
@@ -243,4 +244,5 @@ instructions:
         value: '14.18.3'
       - option: isLernaChild
         value: 'true'
+
 ```
