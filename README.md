@@ -8,7 +8,19 @@ A composition tool for [hygen](https://www.hygen.io) templates. Allows you to co
 
 Hygen is great for templating out small bits of boilerplate for specific use cases, but less than ideal for large complex projects with multiple different options. Hygen Cook aims to solve that issue by allowing you to define a recipe for that large complex project by combining multiple small generators in a specific shape and order.
 
-## Recipes
+## Contents
+
+- [What is a Recipe?](#what-is-a-recipe)
+- [Usage](#usage)
+  - [Install](#install)
+  - [Create a Recipe](#create-a-recipe)
+  - [Time to cook](#time-to-cook)
+  - [CLI Ref](#cli-ref)
+- [Example Recipes](#example-recipes)
+  - [A node module with github actions to build, test, and publish](#a-node-module-with-github-actions-to-build-test-and-publish)
+  - [A monorepo for multiple packages with github actions to build, test, and publish](#a-monorepo-for-multiple-packages-with-github-actions-to-build-test-and-publish)
+
+## What is a Recipe?
 
 A recipe is composed of two main sections, `ingredients` and `instructions`. Ingredients specifies which generators will be used in the recipe, either by git url or npm package name. Instructions specifies the calls to those generators and the arguments they require. When you have a recipe file and want to cook the recipe, simply call `hygen-cook` and pass it the recipe, pretty soon you'll have a freshly baked project to start working on.
 
@@ -119,9 +131,10 @@ Options:
 
 ```
 
-### Example Recipes
+## Example Recipes
 
-#### A node module with github actions to build, test, and publish
+Some example recipes for you to try out using open source generators
+### A node module with github actions to build, test, and publish
 
 ```yaml:examples/node-module-recipe.yml
 name: a-shiny-new-module
@@ -156,7 +169,7 @@ instructions:
         value: '14.18.3'
 ```
 
-#### A monorepo for multiple packages with github actions to build, test, and publish
+### A monorepo for multiple packages with github actions to build, test, and publish
 
 ```yaml:examples/node-monorepo-recipe.yml
 name: a-shiny-set-of-modules
