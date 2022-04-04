@@ -15,6 +15,7 @@ jobs:
           ref: refs/heads/${{ github.head_ref }}
 
       - uses: technology-studio-forks/markdown-embed-code@v1.1.2
+        if: ${{ github.actor != 'dependabot[bot]' }}
         with:
           markdown: "README.md"
           token: ${{ secrets.GH_PA_TOKEN }}
