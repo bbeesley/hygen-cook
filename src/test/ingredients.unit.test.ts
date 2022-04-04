@@ -73,6 +73,39 @@ test.serial('imports ingredients from npm modules', async (t) => {
   ]);
 });
 
+test.serial('supports anchors in recipes', async (t) => {
+  const yamlRecipe = `
+name: &name testing
+ingredients:
+  - &module hygen-emiketic-react
+instructions:
+  - ingredient: *module
+    generator: react-native-component
+    action: new
+    args:
+      - option: name
+        value: *name
+      - option: feature
+        value: test-feature
+`;
+  await writeFile(resolve(execOpts.cwd, 'recipe.yml'), yamlRecipe);
+  await cook({
+    recipePath: resolve(execOpts.cwd, 'recipe.yml'),
+    shouldOverwriteTemplates: true,
+  });
+  const filesList = await readdir(
+    resolve(execOpts.cwd, 'src/features/TestFeature/Testing'),
+  );
+  t.true(filesList.length > 1);
+  t.deepEqual(filesList, [
+    'Testing.js',
+    'Testing.stories.js',
+    '__tests__',
+    'index.js',
+    'styles',
+  ]);
+});
+
 test.serial(
   "adds a pseudo package json so that hygen doesn't throw an error reading ts prompt files in es modules",
   async (t) => {
