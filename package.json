@@ -80,7 +80,7 @@
     "eslint-plugin-unicorn": "^42.0.0",
     "prettier": "^2.5.1",
     "semantic-release": "^19.0.2",
-    "sinon": "^13.0.1"
+    "sinon": "^14.0.0"
   },
   "release": {
     "branches": [
