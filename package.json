@@ -67,7 +67,7 @@
     "babel-plugin-add-import-extension": "^1.6.0",
     "conventional-changelog-angular": "^5.0.13",
     "cz-conventional-changelog": "^3.3.0",
-    "documentation": "^13.2.5",
+    "documentation": "^14.0.0",
     "eslint": "^8.10.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^8.4.0",
