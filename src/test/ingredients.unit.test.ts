@@ -186,3 +186,118 @@ test.serial('imports ingredients from git repos', async (t) => {
     'styles',
   ]);
 });
+
+test.serial('adds a gitignore file if one does not exist', async (t) => {
+  const recipe = {
+    name: 'testing',
+    ingredients: ['hygen-emiketic-react'],
+    instructions: [
+      {
+        ingredient: 'hygen-emiketic-react',
+        generator: 'react-native-component',
+        action: 'new',
+        args: [
+          {
+            option: 'name',
+            value: 'testing',
+          },
+          {
+            option: 'feature',
+            value: 'test-feature',
+          },
+        ],
+      },
+    ],
+  };
+  const yamlRecipe = dump(recipe);
+  await writeFile(resolve(execOpts.cwd, 'recipe.yml'), yamlRecipe);
+  await cook({
+    recipePath: resolve(execOpts.cwd, 'recipe.yml'),
+    shouldOverwriteTemplates: true,
+  });
+  const filesList = await readdir(resolve(execOpts.cwd));
+  t.true(filesList.includes('.gitignore'));
+  const gitignore = await readFile(resolve(execOpts.cwd, '.gitignore'), {
+    encoding: 'utf8',
+  });
+  t.regex(gitignore, /_hygencook/);
+});
+
+test.serial('adds entry to existing gitignore file', async (t) => {
+  const recipe = {
+    name: 'testing',
+    ingredients: ['hygen-emiketic-react'],
+    instructions: [
+      {
+        ingredient: 'hygen-emiketic-react',
+        generator: 'react-native-component',
+        action: 'new',
+        args: [
+          {
+            option: 'name',
+            value: 'testing',
+          },
+          {
+            option: 'feature',
+            value: 'test-feature',
+          },
+        ],
+      },
+    ],
+  };
+  const yamlRecipe = dump(recipe);
+  await writeFile(resolve(execOpts.cwd, 'recipe.yml'), yamlRecipe);
+  await writeFile(
+    resolve(execOpts.cwd, '.gitignore'),
+    'path/to\nexisting/**\n/ignorable-stuff',
+  );
+  await cook({
+    recipePath: resolve(execOpts.cwd, 'recipe.yml'),
+    shouldOverwriteTemplates: true,
+  });
+  const gitignore = await readFile(resolve(execOpts.cwd, '.gitignore'), {
+    encoding: 'utf8',
+  });
+  t.regex(gitignore, /_hygencook/);
+});
+
+test.serial(
+  'does not add entry to existing gitignore file if already exists',
+  async (t) => {
+    const recipe = {
+      name: 'testing',
+      ingredients: ['hygen-emiketic-react'],
+      instructions: [
+        {
+          ingredient: 'hygen-emiketic-react',
+          generator: 'react-native-component',
+          action: 'new',
+          args: [
+            {
+              option: 'name',
+              value: 'testing',
+            },
+            {
+              option: 'feature',
+              value: 'test-feature',
+            },
+          ],
+        },
+      ],
+    };
+    const yamlRecipe = dump(recipe);
+    await writeFile(resolve(execOpts.cwd, 'recipe.yml'), yamlRecipe);
+    await writeFile(
+      resolve(execOpts.cwd, '.gitignore'),
+      'path/to\nexisting/**\n_hygencook\n/ignorable-stuff',
+    );
+    await cook({
+      recipePath: resolve(execOpts.cwd, 'recipe.yml'),
+      shouldOverwriteTemplates: true,
+    });
+    const gitignore = await readFile(resolve(execOpts.cwd, '.gitignore'), {
+      encoding: 'utf8',
+    });
+    t.true((gitignore.match(/_hygencook/gm) || []).length === 1);
+  },
+);
