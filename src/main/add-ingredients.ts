@@ -1,7 +1,7 @@
 import { mkdir } from 'async-fs-wrapper';
 import { green, yellow } from 'chalk';
 import execa from 'execa';
-import { writeFile } from 'fs/promises';
+import { writeFile, readFile } from 'fs/promises';
 import fs from 'fs-extra';
 import ora from 'ora';
 import { join, dirname } from 'path';
@@ -69,6 +69,22 @@ async function createHygenCookDir(): Promise<string> {
     // no problem if directory exists
   }
   return hygenCookDirPath;
+}
+
+async function setGitignore(): Promise<void> {
+  const gitignorePath = join(process.cwd(), '.gitignore');
+  try {
+    const gitignore = await readFile(gitignorePath, { encoding: 'utf8' });
+    if ((gitignore.match(/_hygencook/gm) || []).length > 0) {
+      return;
+    }
+  } catch (err) {
+    // ignore if the file does not exist
+  }
+  const ignoreEntry = `\n# hygen-cook build data\n${HYGEN_COOK_DIR}\n`;
+  await writeFile(gitignorePath, ignoreEntry, {
+    flag: 'a',
+  });
 }
 
 /**
@@ -171,6 +187,7 @@ export async function addIngredients(
   ingredients: string[],
   options: Pick<CookArgs, 'shouldOverwriteTemplates'>,
 ): Promise<void> {
+  await setGitignore();
   await Promise.all(
     ingredients.map((ingredient) =>
       limitConcurrency(() => addIngredient(ingredient, options)),
