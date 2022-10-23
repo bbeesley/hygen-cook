@@ -63,7 +63,7 @@
     "@types/yargs": "^17.0.8",
     "@typescript-eslint/eslint-plugin": "^5.13.0",
     "@typescript-eslint/parser": "^5.13.0",
-    "ava": "^4.0.1",
+    "ava": "^5.0.1",
     "babel-plugin-add-import-extension": "^1.6.0",
     "conventional-changelog-angular": "^5.0.13",
     "cz-conventional-changelog": "^3.3.0",
