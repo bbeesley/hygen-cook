@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/bbeesley/hygen-cook/compare/v1.4.36...v1.5.0) (2022-11-03)
+
+
+### Features
+
+* add entry to .gitignore file to ignore hygencook dir ([4cb044c](https://github.com/bbeesley/hygen-cook/commit/4cb044c2d4902d31c715cc19ee94ddc6bab72eb3))
+
 ## [1.4.36](https://github.com/bbeesley/hygen-cook/compare/v1.4.35...v1.4.36) (2022-04-04)
 
 ## [1.4.35](https://github.com/bbeesley/hygen-cook/compare/v1.4.34...v1.4.35) (2022-04-04)
