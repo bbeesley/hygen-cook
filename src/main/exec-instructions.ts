@@ -1,5 +1,5 @@
-import { resolve, join } from 'path';
-import { Arg, Instruction } from './@types';
+import { resolve, join } from 'node:path';
+import { type Arg, type Instruction } from './@types';
 import { HYGEN_COOK_DIR } from './constants';
 import { runHygen } from './hygen/run-hygen';
 
@@ -13,13 +13,13 @@ import { runHygen } from './hygen/run-hygen';
  * @returns {string[]}
  */
 function prepareArgs(args: Arg[]): string[] {
-  return args.reduce(
+  return args.reduce<string[]>(
     (acc, { option, value }) => [
       ...acc,
       `--${option}`,
       ...(value ? [value] : []),
     ],
-    [] as string[],
+    [],
   );
 }
 
@@ -77,10 +77,13 @@ async function execInstruction({
  *
  * @returns {Promise<void>}
  */
-export function execInstructions(instructions: Instruction[]): Promise<void> {
+export async function execInstructions(
+  instructions: Instruction[],
+): Promise<void> {
   console.log('Executing instructions');
   return instructions.reduce(
-    (promise, instruction) => promise.then(() => execInstruction(instruction)),
+    async (promise, instruction) =>
+      promise.then(async () => execInstruction(instruction)),
     Promise.resolve(),
   );
 }

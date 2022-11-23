@@ -1,4 +1,4 @@
-import { Instruction } from './instruction.type';
+import { type Instruction } from './instruction.type';
 
 export type Recipe = {
   name: string;

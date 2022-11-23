@@ -1,17 +1,17 @@
+import { readdir, writeFile } from 'node:fs/promises';
+import { resolve } from 'node:path';
 import test from 'ava';
 import execa from 'execa';
-import { readdir, writeFile } from 'fs/promises';
 import { dump } from 'js-yaml';
-import { resolve } from 'path';
-import sinon from 'sinon';
+import { createSandbox, stub } from 'sinon';
 
-const execOpts = {
+const execOptions = {
   cwd: resolve(__dirname, 'bin-test-output'),
   timeout: 120e3,
 };
 
-sinon.stub(process, 'cwd').callsFake(() => execOpts.cwd);
-const sandbox = sinon.createSandbox();
+stub(process, 'cwd').callsFake(() => execOptions.cwd);
+const sandbox = createSandbox();
 
 test.serial.beforeEach(async () => {
   sandbox.restore();
@@ -53,17 +53,17 @@ test.serial('passes the expected arguments to the cook function', async (t) => {
     ],
   };
   const yamlRecipe = dump(recipe);
-  await writeFile(resolve(execOpts.cwd, 'recipe.yml'), yamlRecipe);
-  const res = await execa(
+  await writeFile(resolve(execOptions.cwd, 'recipe.yml'), yamlRecipe);
+  const response = await execa(
     resolve(__dirname, '../../dist/bin/hygen-chef.cjs'),
     ['-r', 'recipe.yml'],
     {
-      ...execOpts,
+      ...execOptions,
     },
   );
-  console.error(res.stdout, res.stderr);
+  console.error(response.stdout, response.stderr);
 
-  const filesList = await readdir(resolve(execOpts.cwd, 'src/testing'));
+  const filesList = await readdir(resolve(execOptions.cwd, 'src/testing'));
   console.error('filesList', filesList);
   t.true(filesList.length > 1);
   t.deepEqual(filesList, ['components', 'contexts', 'hooks']);

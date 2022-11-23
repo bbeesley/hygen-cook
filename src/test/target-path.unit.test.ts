@@ -1,21 +1,21 @@
+import { readdir, writeFile } from 'node:fs/promises';
+import { resolve } from 'node:path';
 import test from 'ava';
 import execa from 'execa';
-import { readdir, writeFile } from 'fs/promises';
 import { dump } from 'js-yaml';
-import { resolve } from 'path';
-import sinon from 'sinon';
+import { stub } from 'sinon';
 
 import { cook } from '../main/cook';
 
-const execOpts = {
+const execOptions = {
   cwd: resolve(__dirname, 'target-path-test-output'),
   timeout: 30e3,
 };
 
-sinon.stub(process, 'cwd').callsFake(() => execOpts.cwd);
-sinon.stub(console, 'error');
-sinon.stub(console, 'log');
-sinon.stub(console, 'info');
+stub(process, 'cwd').callsFake(() => execOptions.cwd);
+stub(console, 'error');
+stub(console, 'log');
+stub(console, 'info');
 
 test.serial.beforeEach(async () => {
   await execa('rm', ['-Rf', 'target-path-test-output'], {
@@ -28,7 +28,7 @@ test.serial.beforeEach(async () => {
   });
 });
 
-test.afterEach(async () => {
+test.serial.afterEach(async () => {
   await execa('rm', ['-Rf', 'target-path-test-output'], {
     shell: true,
     cwd: __dirname,
@@ -54,12 +54,12 @@ test.serial('allows not setting a non standard target path', async (t) => {
     ],
   };
   const yamlRecipe = dump(recipe);
-  await writeFile(resolve(execOpts.cwd, 'recipe.yml'), yamlRecipe);
+  await writeFile(resolve(execOptions.cwd, 'recipe.yml'), yamlRecipe);
   await cook({
-    recipePath: resolve(execOpts.cwd, 'recipe.yml'),
+    recipePath: resolve(execOptions.cwd, 'recipe.yml'),
     shouldOverwriteTemplates: false,
   });
-  const filesList = await readdir(resolve(execOpts.cwd, 'src/testing'));
+  const filesList = await readdir(resolve(execOptions.cwd, 'src/testing'));
   t.true(filesList.length > 1);
   t.deepEqual(filesList, ['components', 'contexts', 'hooks']);
 });
@@ -84,12 +84,12 @@ test.serial('allows setting a non standard target path', async (t) => {
     ],
   };
   const yamlRecipe = dump(recipe);
-  await writeFile(resolve(execOpts.cwd, 'recipe.yml'), yamlRecipe);
+  await writeFile(resolve(execOptions.cwd, 'recipe.yml'), yamlRecipe);
   await cook({
-    recipePath: resolve(execOpts.cwd, 'recipe.yml'),
+    recipePath: resolve(execOptions.cwd, 'recipe.yml'),
     shouldOverwriteTemplates: false,
   });
-  const filesList = await readdir(resolve(execOpts.cwd, 'deep/src/testing'));
+  const filesList = await readdir(resolve(execOptions.cwd, 'deep/src/testing'));
   t.true(filesList.length > 1);
   t.deepEqual(filesList, ['components', 'contexts', 'hooks']);
 });

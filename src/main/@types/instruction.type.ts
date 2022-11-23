@@ -1,4 +1,4 @@
-import { Arg } from './arg.type';
+import { type Arg } from './arg.type';
 
 export type Instruction = {
   ingredient: string;

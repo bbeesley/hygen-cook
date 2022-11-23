@@ -1,17 +1,17 @@
+import { stat, writeFile } from 'node:fs/promises';
+import { resolve } from 'node:path';
 import test from 'ava';
 import execa from 'execa';
-import { stat, writeFile } from 'fs/promises';
 import { dump } from 'js-yaml';
-import { resolve } from 'path';
-import sinon from 'sinon';
+import { stub } from 'sinon';
 import { cook } from '../main/cook';
 
-const execOpts = {
+const execOptions = {
   cwd: resolve(__dirname, 'args-test-output'),
   timeout: 30e3,
 };
 
-sinon.stub(process, 'cwd').callsFake(() => execOpts.cwd);
+stub(process, 'cwd').callsFake(() => execOptions.cwd);
 
 test.beforeEach(async () => {
   await execa('rm', ['-Rf', 'args-test-output'], {
@@ -54,17 +54,17 @@ test.serial('converts instructions to hygen args', async (t) => {
     ],
   };
   const yamlRecipe = dump(recipe);
-  await writeFile(resolve(execOpts.cwd, 'recipe.yml'), yamlRecipe);
+  await writeFile(resolve(execOptions.cwd, 'recipe.yml'), yamlRecipe);
   await cook({
-    recipePath: resolve(execOpts.cwd, 'recipe.yml'),
+    recipePath: resolve(execOptions.cwd, 'recipe.yml'),
     shouldOverwriteTemplates: true,
   });
-  const dirStatRes = await stat(
-    resolve(execOpts.cwd, 'src/features/TestFeature'),
+  const dirStatResponse = await stat(
+    resolve(execOptions.cwd, 'src/features/TestFeature'),
   );
-  t.true(dirStatRes.isDirectory());
-  const fileStatRes = await stat(
-    resolve(execOpts.cwd, 'src/features/TestFeature/Testing/Testing.js'),
+  t.true(dirStatResponse.isDirectory());
+  const fileStatResponse = await stat(
+    resolve(execOptions.cwd, 'src/features/TestFeature/Testing/Testing.js'),
   );
-  t.true(fileStatRes.isFile());
+  t.true(fileStatResponse.isFile());
 });

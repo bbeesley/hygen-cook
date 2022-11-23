@@ -13,7 +13,7 @@ module.exports = function configureBabel(api) {
       },
     ],
     [
-      '@babel/preset-typescript', // this plugin allows babel to work with typescript (bear in mind it will only transpile it, it doesn't care if you have type errors)
+      '@babel/preset-typescript', // This plugin allows babel to work with typescript (bear in mind it will only transpile it, it doesn't care if you have type errors)
     ],
   ];
 

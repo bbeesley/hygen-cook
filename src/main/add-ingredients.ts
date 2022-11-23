@@ -1,11 +1,11 @@
+import { writeFile, readFile } from 'node:fs/promises';
+import { join, dirname } from 'node:path';
 import { mkdir } from 'async-fs-wrapper';
 import { green, yellow } from 'chalk';
 import execa from 'execa';
-import { writeFile, readFile } from 'fs/promises';
 import fs from 'fs-extra';
 import ora from 'ora';
-import { join, dirname } from 'path';
-import { NpmPackage, CookArgs } from './@types';
+import { type NpmPackage, type CookArgs } from './@types';
 import { HYGEN_COOK_DIR } from './constants';
 import { limitConcurrency } from './limit-concurency';
 
@@ -22,12 +22,13 @@ import { limitConcurrency } from './limit-concurency';
  * @returns {NpmPackage} Resolved npm package.
  */
 function resolveNpmPackage(ingredient: string): NpmPackage {
-  if (ingredient.match(/^http/)) {
+  if (ingredient.startsWith('http')) {
     const url = new URL(ingredient);
     const name = url.href.split('/').pop();
     if (!name) throw new Error(`Invalid URL for ingredient ${ingredient}`);
     return { name, repo: ingredient };
   }
+
   return { name: ingredient };
 }
 
@@ -65,9 +66,10 @@ async function createHygenCookDir(): Promise<string> {
         type: 'commonjs',
       }),
     );
-  } catch (err) {
-    // no problem if directory exists
+  } catch {
+    // No problem if directory exists
   }
+
   return hygenCookDirPath;
 }
 
@@ -75,12 +77,13 @@ async function setGitignore(): Promise<void> {
   const gitignorePath = join(process.cwd(), '.gitignore');
   try {
     const gitignore = await readFile(gitignorePath, { encoding: 'utf8' });
-    if ((gitignore.match(/_hygencook/gm) || []).length > 0) {
+    if ((gitignore.match(/_hygencook/gm) ?? []).length > 0) {
       return;
     }
-  } catch (err) {
+  } catch {
     // ignore if the file does not exist
   }
+
   const ignoreEntry = `\n# hygen-cook build data\n${HYGEN_COOK_DIR}\n`;
   await writeFile(gitignorePath, ignoreEntry, {
     flag: 'a',
@@ -116,6 +119,7 @@ async function copyNpmPackageTemplates(
     console.log(yellow(` skipped: ${name}`));
     return;
   }
+
   await fs.copy(sourceTemplateDir, targetTemplateDir, {
     recursive: true,
     errorOnExist: false,
@@ -127,18 +131,21 @@ async function copyNpmPackageTemplates(
 /**
  * Logs that an ingredient couldn't be added.
  *
- * @param {Error} e The error to be logged.
+ * @param {Error} error The error to be logged.
  * @param {NpmPackage} npmPackage The npm package that errored.
  * @param {string} npmPackage.name The npm package name.
  * @param {string} npmPackage.repo Optional. The npm package repo.
  *
  * @returns {void}
  */
-function logErrorAddingIngredient(e: Error, { name, repo }: NpmPackage): void {
+function logErrorAddingIngredient(
+  error: Error,
+  { name, repo }: NpmPackage,
+): void {
   console.error(
     `\n\nCan't add ${name}${repo ? ` (source: ${repo})` : ''}\n\n`,
-    e,
-    e.stack,
+    error,
+    error.stack,
   );
 }
 
@@ -162,8 +169,8 @@ async function addIngredient(
   try {
     await installNpmPackage(npmPackage);
     await copyNpmPackageTemplates(npmPackage, { shouldOverwriteTemplates });
-  } catch (e) {
-    logErrorAddingIngredient(e, npmPackage);
+  } catch (error) {
+    logErrorAddingIngredient(error, npmPackage);
   } finally {
     spinner.stop();
   }
@@ -189,8 +196,8 @@ export async function addIngredients(
 ): Promise<void> {
   await setGitignore();
   await Promise.all(
-    ingredients.map((ingredient) =>
-      limitConcurrency(() => addIngredient(ingredient, options)),
+    ingredients.map(async (ingredient) =>
+      limitConcurrency(async () => addIngredient(ingredient, options)),
     ),
   );
 }

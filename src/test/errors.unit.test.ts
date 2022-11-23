@@ -1,18 +1,18 @@
+import { writeFile } from 'node:fs/promises';
+import { resolve } from 'node:path';
 import test from 'ava';
 import execa from 'execa';
-import { writeFile } from 'fs/promises';
 import { dump } from 'js-yaml';
-import { resolve } from 'path';
-import sinon from 'sinon';
+import { createSandbox, stub } from 'sinon';
 import { cook } from '../main/cook';
 
-const execOpts = {
+const execOptions = {
   cwd: resolve(__dirname, 'errors-test-output'),
   timeout: 30e3,
 };
 
-sinon.stub(process, 'cwd').callsFake(() => execOpts.cwd);
-const sandbox = sinon.createSandbox();
+stub(process, 'cwd').callsFake(() => execOptions.cwd);
+const sandbox = createSandbox();
 let consoleErrorStub = sandbox.stub(console, 'error');
 
 test.serial.beforeEach(async () => {
@@ -49,10 +49,10 @@ test.serial('throws an error if the ingredient does not exist', async (t) => {
     ],
   };
   const yamlRecipe = dump(recipe);
-  await writeFile(resolve(execOpts.cwd, 'recipe.yml'), yamlRecipe);
+  await writeFile(resolve(execOptions.cwd, 'recipe.yml'), yamlRecipe);
   await t.throwsAsync(
     cook({
-      recipePath: resolve(execOpts.cwd, 'recipe.yml'),
+      recipePath: resolve(execOptions.cwd, 'recipe.yml'),
       shouldOverwriteTemplates: true,
     }),
   );
@@ -62,13 +62,13 @@ test.serial('throws an error if the ingredient does not exist', async (t) => {
 test.serial('throws an error if the recipe does not exist', async (t) => {
   await t.throwsAsync(
     cook({
-      recipePath: resolve(execOpts.cwd, 'recipe.yml'),
+      recipePath: resolve(execOptions.cwd, 'recipe.yml'),
       shouldOverwriteTemplates: true,
     }),
   );
   t.true(
     consoleErrorStub.calledWith(
-      `Unable to load recipe from ${resolve(execOpts.cwd, 'recipe.yml')}`,
+      `Unable to load recipe from ${resolve(execOptions.cwd, 'recipe.yml')}`,
     ),
   );
 });

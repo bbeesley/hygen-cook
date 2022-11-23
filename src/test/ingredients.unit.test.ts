@@ -1,18 +1,18 @@
+import { readdir, writeFile } from 'node:fs/promises';
+import { resolve } from 'node:path';
 import { readFile } from 'async-fs-wrapper';
 import test from 'ava';
 import execa from 'execa';
-import { readdir, writeFile } from 'fs/promises';
 import { dump } from 'js-yaml';
-import { resolve } from 'path';
-import sinon from 'sinon';
+import { stub } from 'sinon';
 import { cook } from '../main/cook';
 
-const execOpts = {
+const execOptions = {
   cwd: resolve(__dirname, 'ingredients-test-output'),
   timeout: 30e3,
 };
 
-sinon.stub(process, 'cwd').callsFake(() => execOpts.cwd);
+stub(process, 'cwd').callsFake(() => execOptions.cwd);
 
 test.beforeEach(async () => {
   await execa('rm', ['-Rf', 'ingredients-test-output'], {
@@ -55,13 +55,13 @@ test.serial('imports ingredients from npm modules', async (t) => {
     ],
   };
   const yamlRecipe = dump(recipe);
-  await writeFile(resolve(execOpts.cwd, 'recipe.yml'), yamlRecipe);
+  await writeFile(resolve(execOptions.cwd, 'recipe.yml'), yamlRecipe);
   await cook({
-    recipePath: resolve(execOpts.cwd, 'recipe.yml'),
+    recipePath: resolve(execOptions.cwd, 'recipe.yml'),
     shouldOverwriteTemplates: true,
   });
   const filesList = await readdir(
-    resolve(execOpts.cwd, 'src/features/TestFeature/Testing'),
+    resolve(execOptions.cwd, 'src/features/TestFeature/Testing'),
   );
   t.true(filesList.length > 1);
   t.deepEqual(filesList, [
@@ -88,13 +88,13 @@ instructions:
       - option: feature
         value: test-feature
 `;
-  await writeFile(resolve(execOpts.cwd, 'recipe.yml'), yamlRecipe);
+  await writeFile(resolve(execOptions.cwd, 'recipe.yml'), yamlRecipe);
   await cook({
-    recipePath: resolve(execOpts.cwd, 'recipe.yml'),
+    recipePath: resolve(execOptions.cwd, 'recipe.yml'),
     shouldOverwriteTemplates: true,
   });
   const filesList = await readdir(
-    resolve(execOpts.cwd, 'src/features/TestFeature/Testing'),
+    resolve(execOptions.cwd, 'src/features/TestFeature/Testing'),
   );
   t.true(filesList.length > 1);
   t.deepEqual(filesList, [
@@ -131,13 +131,13 @@ test.serial(
       ],
     };
     const yamlRecipe = dump(recipe);
-    await writeFile(resolve(execOpts.cwd, 'recipe.yml'), yamlRecipe);
+    await writeFile(resolve(execOptions.cwd, 'recipe.yml'), yamlRecipe);
     await cook({
-      recipePath: resolve(execOpts.cwd, 'recipe.yml'),
+      recipePath: resolve(execOptions.cwd, 'recipe.yml'),
       shouldOverwriteTemplates: true,
     });
     const pkg = await readFile(
-      resolve(execOpts.cwd, '_hygencook/package.json'),
+      resolve(execOptions.cwd, '_hygencook/package.json'),
       { encoding: 'utf8' },
     );
     t.deepEqual(JSON.parse(pkg), {
@@ -169,13 +169,13 @@ test.serial('imports ingredients from git repos', async (t) => {
     ],
   };
   const yamlRecipe = dump(recipe);
-  await writeFile(resolve(execOpts.cwd, 'recipe.yml'), yamlRecipe);
+  await writeFile(resolve(execOptions.cwd, 'recipe.yml'), yamlRecipe);
   await cook({
-    recipePath: resolve(execOpts.cwd, 'recipe.yml'),
+    recipePath: resolve(execOptions.cwd, 'recipe.yml'),
     shouldOverwriteTemplates: true,
   });
   const filesList = await readdir(
-    resolve(execOpts.cwd, 'src/features/TestFeature/Testing'),
+    resolve(execOptions.cwd, 'src/features/TestFeature/Testing'),
   );
   t.true(filesList.length > 1);
   t.deepEqual(filesList, [
@@ -210,14 +210,14 @@ test.serial('adds a gitignore file if one does not exist', async (t) => {
     ],
   };
   const yamlRecipe = dump(recipe);
-  await writeFile(resolve(execOpts.cwd, 'recipe.yml'), yamlRecipe);
+  await writeFile(resolve(execOptions.cwd, 'recipe.yml'), yamlRecipe);
   await cook({
-    recipePath: resolve(execOpts.cwd, 'recipe.yml'),
+    recipePath: resolve(execOptions.cwd, 'recipe.yml'),
     shouldOverwriteTemplates: true,
   });
-  const filesList = await readdir(resolve(execOpts.cwd));
+  const filesList = await readdir(resolve(execOptions.cwd));
   t.true(filesList.includes('.gitignore'));
-  const gitignore = await readFile(resolve(execOpts.cwd, '.gitignore'), {
+  const gitignore = await readFile(resolve(execOptions.cwd, '.gitignore'), {
     encoding: 'utf8',
   });
   t.regex(gitignore, /_hygencook/);
@@ -246,16 +246,16 @@ test.serial('adds entry to existing gitignore file', async (t) => {
     ],
   };
   const yamlRecipe = dump(recipe);
-  await writeFile(resolve(execOpts.cwd, 'recipe.yml'), yamlRecipe);
+  await writeFile(resolve(execOptions.cwd, 'recipe.yml'), yamlRecipe);
   await writeFile(
-    resolve(execOpts.cwd, '.gitignore'),
+    resolve(execOptions.cwd, '.gitignore'),
     'path/to\nexisting/**\n/ignorable-stuff',
   );
   await cook({
-    recipePath: resolve(execOpts.cwd, 'recipe.yml'),
+    recipePath: resolve(execOptions.cwd, 'recipe.yml'),
     shouldOverwriteTemplates: true,
   });
-  const gitignore = await readFile(resolve(execOpts.cwd, '.gitignore'), {
+  const gitignore = await readFile(resolve(execOptions.cwd, '.gitignore'), {
     encoding: 'utf8',
   });
   t.regex(gitignore, /_hygencook/);
@@ -286,18 +286,18 @@ test.serial(
       ],
     };
     const yamlRecipe = dump(recipe);
-    await writeFile(resolve(execOpts.cwd, 'recipe.yml'), yamlRecipe);
+    await writeFile(resolve(execOptions.cwd, 'recipe.yml'), yamlRecipe);
     await writeFile(
-      resolve(execOpts.cwd, '.gitignore'),
+      resolve(execOptions.cwd, '.gitignore'),
       'path/to\nexisting/**\n_hygencook\n/ignorable-stuff',
     );
     await cook({
-      recipePath: resolve(execOpts.cwd, 'recipe.yml'),
+      recipePath: resolve(execOptions.cwd, 'recipe.yml'),
       shouldOverwriteTemplates: true,
     });
-    const gitignore = await readFile(resolve(execOpts.cwd, '.gitignore'), {
+    const gitignore = await readFile(resolve(execOptions.cwd, '.gitignore'), {
       encoding: 'utf8',
     });
-    t.true((gitignore.match(/_hygencook/gm) || []).length === 1);
+    t.true((gitignore.match(/_hygencook/gm) ?? []).length === 1);
   },
 );

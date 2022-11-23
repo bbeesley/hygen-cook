@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+// eslint-disable-next-line n/file-extension-in-import
 import yargs from 'yargs/yargs';
 import { cook } from '../main/cook';
 
@@ -19,11 +20,9 @@ const { argv } = yargs(process.argv.slice(2))
   })
   .help();
 
-cook({
-  /* eslint-disable dot-notation */
+void cook({
   recipePath: (argv as Record<string, any>)['recipe'] as string,
   shouldOverwriteTemplates: (argv as Record<string, any>)[
     'overwriteTemplates'
   ] as boolean,
-  /* eslint-enable dot-notation */
 });

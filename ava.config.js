@@ -11,5 +11,5 @@ module.exports = {
     '--loader=ts-node/esm',
     '--experimental-specifier-resolution=node',
   ],
-  timeout: '1m',
+  timeout: '3m',
 };

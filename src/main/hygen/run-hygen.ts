@@ -1,6 +1,10 @@
 import { engine, Logger, resolve } from 'hygen';
-import { RunnerConfig, Prompter, ActionResult } from 'hygen/src/types';
-import { command, ExecaChildProcess } from 'execa';
+import {
+  type RunnerConfig,
+  type Prompter,
+  type ActionResult,
+} from 'hygen/src/types';
+import { command, type ExecaChildProcess } from 'execa';
 import enquirer from 'enquirer';
 
 /**
@@ -11,11 +15,11 @@ import enquirer from 'enquirer';
  */
 function execFn(
   config?: RunnerConfig,
-): (action: string, body: string) => ExecaChildProcess<string> {
+): (action: string, body: string) => ExecaChildProcess {
   return (action, body) => {
-    const opts = body && body.length > 0 ? { input: body } : {};
+    const options = body && body.length > 0 ? { input: body } : {};
     return command(action, {
-      ...opts,
+      ...options,
       env: process.env,
       cwd: config?.cwd ?? process.cwd(),
       shell: true,
@@ -44,10 +48,10 @@ function configureHygen(config?: RunnerConfig): RunnerConfig {
     cwd: process.cwd(),
     logger: new Logger(console.log.bind(console)),
     exec: execFn(config),
-    // eslint-disable-next-line dot-notation
-    debug: !!process.env['DEBUG'],
+
+    debug: Boolean(process.env['DEBUG']),
     createPrompter,
-    ...(config || {}),
+    ...config,
   };
 }
 

@@ -1,7 +1,7 @@
 import { readFile } from 'async-fs-wrapper';
 import { load } from 'js-yaml';
 
-import { CookArgs, Recipe } from './@types';
+import { type CookArgs, type Recipe } from './@types';
 import { addIngredients } from './add-ingredients';
 import { execInstructions } from './exec-instructions';
 
@@ -16,9 +16,9 @@ async function getRecipe(recipePath: string): Promise<Recipe> {
   try {
     const recipeContent = await readFile(recipePath, { encoding: 'utf8' });
     return load(recipeContent) as Recipe;
-  } catch (e) {
-    console.error(`Unable to load recipe from ${recipePath}`, e);
-    throw e;
+  } catch (error) {
+    console.error(`Unable to load recipe from ${recipePath}`, error);
+    throw error as Error;
   }
 }
 
