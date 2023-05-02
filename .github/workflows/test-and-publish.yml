@@ -21,7 +21,7 @@ jobs:
           ref: ${{ github.event.pull_request.head.ref }}
       - uses: actions/setup-node@v3
         with:
-          node-version: '14.17'
+          node-version: '18'
       - uses: bbeesley/build-test-merge-publish@main
         with:
           main-branch: main
