@@ -57,7 +57,7 @@
     "@semantic-release/release-notes-generator": "^10.0.3",
     "@types/fs-extra": "^9.0.13",
     "@types/js-yaml": "^4.0.5",
-    "@types/jsdom": "^20.0.0",
+    "@types/jsdom": "^21.1.1",
     "@types/sinon": "^10.0.11",
     "@types/yargs": "^17.0.8",
     "ava": "^5.0.1",
