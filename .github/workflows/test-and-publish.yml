@@ -9,12 +9,12 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         if: github.event_name == 'push'
         with:
           fetch-depth: 0
           persist-credentials: false
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         if: github.event_name == 'pull_request_target'
         with:
           fetch-depth: 0
@@ -33,7 +33,7 @@ jobs:
     if: ${{ (github.actor == 'dependabot[bot]' && github.event_name == 'pull_request_target') || (github.ref != 'refs/heads/main' && github.event_name == 'push') }}
     timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - uses: actions/setup-node@v3
