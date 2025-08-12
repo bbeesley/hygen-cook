@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: micnncim/action-lgtm-reaction@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
